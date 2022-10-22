@@ -40,7 +40,7 @@ pipeline {
                                 type: pom.packaging],
                                 [artifactId: pom.artifactId,
                                 classifier: '',
-                                file: "pom.xml",
+                                file: "Spring/pom.xml",
                                 type: "pom"]
                             ]
                         );
