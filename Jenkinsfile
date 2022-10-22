@@ -11,10 +11,10 @@ pipeline {
         stage('Start') {
             steps {
                 echo 'Start Deploy'
-            script {
-                    mvn deploy;
+            
+                 sh   "mvn deploy"
                 }
-            }
+            
         }
     }
 }
