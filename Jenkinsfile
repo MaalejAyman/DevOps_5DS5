@@ -11,9 +11,7 @@ pipeline {
         stage('Start') {
             steps {
                 echo 'Start Deploy'
-                sh  "ls"
-                sh  "cd Spring"
-                sh  "ls"
+                sh  "mvn deploy -Durl=./Spring"
             }
         }
     }
