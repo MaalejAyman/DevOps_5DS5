@@ -11,7 +11,7 @@ pipeline {
         stage('Start') {
             steps {
                 echo 'Start Deploy'
-                mvn deploy
+                echo mvn deploy
             }
         }
     }
