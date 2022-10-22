@@ -11,10 +11,9 @@ pipeline {
         stage('Start') {
             steps {
                 echo 'Start Deploy'
-            
-                 sh   "mvn deploy"
-                }
-            
+                sh   "cd Spring"
+                sh   "mvn deploy"
+            }
         }
     }
 }
