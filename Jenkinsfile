@@ -11,7 +11,9 @@ pipeline {
         stage('Start') {
             steps {
                 echo 'Start Deploy'
-                echo mvn deploy
+            script {
+                    mvn deploy;
+                }
             }
         }
     }
