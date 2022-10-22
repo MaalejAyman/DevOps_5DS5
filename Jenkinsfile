@@ -8,12 +8,7 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "Nexus-Creds"
     }
     stages {
-        stage("GIT") {
-            steps {
-                echo"Getting Project frim Git";
-                git "https://github.com/mouhebba/TP-Achat.git";
-            }
-        }
+        
         stage("Maven Clean") {
             steps {
                 script {
