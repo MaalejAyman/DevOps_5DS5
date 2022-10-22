@@ -11,8 +11,9 @@ pipeline {
         stage('Start') {
             steps {
                 echo 'Start Deploy'
-                sh   "ls"
-
+                sh  "ls"
+                sh  "cd Spring"
+                sh  "ls"
             }
         }
     }
