@@ -81,6 +81,6 @@
 		</plugins>
 	</build>
 	<distributionManagement>
-		<url>http://192.168.108.222:8081/repository/maven-releases/</url>
+		<url>http://192.168.1.25:8081/repository/maven-releases/</url>
 	</distributionManagement>
 </project>
