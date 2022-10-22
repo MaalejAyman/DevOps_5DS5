@@ -11,7 +11,7 @@ pipeline {
         stage('Start') {
             steps {
                 echo 'Start Deploy'
-                sh  "mvn deploy ./Spring"
+                sh  "mvn - f ('//var//lib//jenkins//workspace//TP-Achat-Pipeline-Git//Spring//pom.xml') deploy"
             }
         }
     }
