@@ -11,7 +11,7 @@ pipeline {
         stage('Start') {
             steps {
                 echo 'Start Deploy'
-                sh   "pwd"
+                sh   "ls"
 
             }
         }
