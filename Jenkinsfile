@@ -11,8 +11,8 @@ pipeline {
         stage('Start') {
             steps {
                 echo 'Start Deploy'
-                sh   "cd Spring"
-                sh   "mvn deploy"
+                sh   "pwd"
+
             }
         }
     }
