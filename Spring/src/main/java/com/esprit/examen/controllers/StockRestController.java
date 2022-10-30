@@ -25,7 +25,6 @@ public class StockRestController {
 
 		private Long idStock;
 		private String libelleStock;
-		private String libelle;
 		private Integer qte;
 		private Integer qteMin;
 		}
@@ -46,13 +45,13 @@ public class StockRestController {
 	
 	@PostMapping("/add-stock")
 	@ResponseBody
-	public Stock addStock(@RequestBody StockRequestModel StockModel) {
+	public Stock addStock(@RequestBody StockRequestModel stockModel) {
 		
 		Stock s = new Stock();
-		s.setIdStock(StockModel.idStock);
-		s.setLibelleStock(StockModel.libelleStock);
-		s.setQte(StockModel.qte);
-		s.setQteMin(StockModel.qteMin);
+		s.setIdStock(stockModel.idStock);
+		s.setLibelleStock(stockModel.libelleStock);
+		s.setQte(stockModel.qte);
+		s.setQteMin(stockModel.qteMin);
 		
 		return stockService.addStock(s);
 	}
