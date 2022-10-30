@@ -35,6 +35,7 @@ pipeline {
                 script {
                     sh "mvn -f'Spring/pom.xml' package -DskipTests=true"
                 }
+                echo ":$BUILD_NUMBER"
             }
         }
         stage("Publish to Nexus Repository Manager") {
