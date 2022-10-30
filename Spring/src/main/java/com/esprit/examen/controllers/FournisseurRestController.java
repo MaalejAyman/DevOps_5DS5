@@ -3,17 +3,6 @@ package com.esprit.examen.controllers;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,7 +20,6 @@ import com.esprit.examen.entities.Facture;
 import com.esprit.examen.entities.Fournisseur;
 import com.esprit.examen.entities.SecteurActivite;
 import com.esprit.examen.services.IFournisseurService;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.Api;
 
