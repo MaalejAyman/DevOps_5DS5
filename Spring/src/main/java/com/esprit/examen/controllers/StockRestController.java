@@ -49,11 +49,10 @@ public class StockRestController {
 	public Stock addStock(@RequestBody StockRequestModel StockModel) {
 		
 		Stock s = new Stock();
-		s.setIdStock(StockModel.IdStock);
-		s.setLibelleStock(StockModel.LibelleStock);
-		s.setlibelle(StockModel.libelle);
-		s.setqte(StockModel.qte);
-		s.setqteMin(StockModel.qteMin);
+		s.setIdStock(StockModel.idStock);
+		s.setLibelleStock(StockModel.libelleStock);
+		s.setQte(StockModel.qte);
+		s.setQteMin(StockModel.qteMin);
 		
 		return stockService.addStock(s);
 	}
