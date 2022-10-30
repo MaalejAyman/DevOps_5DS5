@@ -19,5 +19,33 @@ pipeline {
                 echo 'deploying the application...'
             }
         }
+        
+           stage('GIT') {
+            steps {
+                echo 'Getting project from git' ;
+                git "https://github.com/mouhebba/TP-Achat.git"
+            }
+        }
+           stage('MVN CLEAN') {
+            steps {
+                sh 'mvn clean'
+              
+            }
+        }
+        
+              stage('MVN COMPILE') {
+            steps {
+                sh 'mvn compile'
+              
+            }
+        }
+        
+             stage("Maven Sonarqube") {
+            steps {
+                script {
+                    sh "mvn -f'Spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=sonar"
+                }
+            }
+        }
     }
 }
