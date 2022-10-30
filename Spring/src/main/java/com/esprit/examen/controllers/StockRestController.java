@@ -65,7 +65,12 @@ public class StockRestController {
 	
 	@PutMapping("/modify-stock")
 	@ResponseBody
-	public Stock modifyStock(@RequestBody Stock stock) {
-		return stockService.updateStock(stock);
+	public Stock modifyStock(@RequestBody StockRequestModel stockModel) {
+		Stock s = new Stock();
+		s.setIdStock(stockModel.idStock);
+		s.setLibelleStock(stockModel.libelleStock);
+		s.setQte(stockModel.qte);
+		s.setQteMin(stockModel.qteMin);
+		return stockService.updateStock(s);
 	}
 }
