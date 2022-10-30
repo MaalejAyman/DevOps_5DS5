@@ -39,8 +39,7 @@ public class StockRestController {
 	@PostMapping("/add-stock")
 	@ResponseBody
 	public Stock addStock(@RequestBody Stock s) {
-		Stock stock = stockService.addStock(s);
-		return stock;
+		return stockService.addStock(s);
 	}
 
 	// http://localhost:8089/SpringMVC/stock/remove-stock/{stock-id}
