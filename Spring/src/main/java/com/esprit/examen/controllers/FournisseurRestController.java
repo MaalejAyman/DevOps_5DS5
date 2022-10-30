@@ -34,7 +34,6 @@ public class FournisseurRestController {
 	
 	public class FournisseurRequestModel {
 
-		private Long idFournisseur;
 		private String code;
 		private String libelle;
 		private CategorieFournisseur  categorieFournisseur;
