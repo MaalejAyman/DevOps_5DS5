@@ -1,17 +1,9 @@
 package com.esprit.examen.controllers;
 
-import java.io.Serializable;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +13,6 @@ import com.esprit.examen.entities.DetailFacture;
 import com.esprit.examen.entities.Produit;
 import com.esprit.examen.entities.Stock;
 import com.esprit.examen.services.IProduitService;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.annotations.Api;
 
@@ -67,7 +58,6 @@ public class ProduitRestController {
 		p.setDateCreation(prod.dateCreation);
 		p.setDateDerniereModification(prod.dateDerniereModification);
 		p.setDetailFacture(prod.detailFacture);
-		p.setIdProduit(p.getIdProduit());
 		p.setLibelleProduit(prod.libelleProduit);
 		p.setPrix(prod.prix);
 		p.setStock(prod.stock);
@@ -90,7 +80,7 @@ public class ProduitRestController {
 		p.setDateCreation(prod.dateCreation);
 		p.setDateDerniereModification(prod.dateDerniereModification);
 		p.setDetailFacture(prod.detailFacture);
-		p.setIdProduit(p.getIdProduit());
+		p.setIdProduit(prod.idProduit);
 		p.setLibelleProduit(prod.libelleProduit);
 		p.setPrix(prod.prix);
 		p.setStock(prod.stock);
