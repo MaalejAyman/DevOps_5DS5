@@ -20,7 +20,15 @@ public class StockRestController {
 
 	@Autowired
 	IStockService stockService;
+	
+	public class StockRequestModel {
 
+		private Long idStock;
+		private String libelleStock;
+		private String libelle;
+		private Integer qte;
+		private Integer qteMin;
+		}
 	
 	@GetMapping("/retrieve-all-stocks")
 	@ResponseBody
@@ -38,7 +46,15 @@ public class StockRestController {
 	
 	@PostMapping("/add-stock")
 	@ResponseBody
-	public Stock addStock(@RequestBody Stock s) {
+	public Stock addStock(@RequestBody StockRequestModel StockModel) {
+		
+		Stock s = new Stock();
+		s.setIdStock(StockModel.IdStock);
+		s.setLibelleStock(StockModel.LibelleStock);
+		s.setlibelle(StockModel.libelle);
+		s.setqte(StockModel.qte);
+		s.setqteMin(StockModel.qteMin);
+		
 		return stockService.addStock(s);
 	}
 
