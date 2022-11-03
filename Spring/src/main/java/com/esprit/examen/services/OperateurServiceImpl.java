@@ -2,6 +2,8 @@ package com.esprit.examen.services;
 
 import java.util.List;
 
+import com.esprit.examen.entities.dto.OperateurRequestModel;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.esprit.examen.entities.Operateur;
@@ -16,11 +18,10 @@ public class OperateurServiceImpl implements IOperateurService {
 	public List<Operateur> retrieveAllOperateurs() {
 		return (List<Operateur>) operateurRepository.findAll();
 	}
-
+	ModelMapper modelMapper= new ModelMapper();
 	@Override
-	public Operateur addOperateur(Operateur o) {
-		operateurRepository.save(o);
-		return o;
+	public Operateur addOperateur(OperateurRequestModel o) {
+		return operateurRepository.save(modelMapper.map(o,Operateur.class));
 	}
 
 	@Override
@@ -30,15 +31,14 @@ public class OperateurServiceImpl implements IOperateurService {
 	}
 
 	@Override
-	public Operateur updateOperateur(Operateur o) {
-		operateurRepository.save(o);
-		return o;
+	public Operateur updateOperateur(OperateurRequestModel o) {
+		return operateurRepository.save(modelMapper.map(o,Operateur.class));
 	}
 
 	@Override
 	public Operateur retrieveOperateur(Long id) {
-		Operateur operateur = operateurRepository.findById(id).orElse(null);
-		return operateur;
+		return operateurRepository.findById(id).orElse(null);
+
 	}
 
 }
