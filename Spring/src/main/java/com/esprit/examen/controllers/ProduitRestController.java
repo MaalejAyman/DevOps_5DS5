@@ -1,17 +1,13 @@
 package com.esprit.examen.controllers;
 
 
-import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.esprit.examen.entities.CategorieProduit;
-import com.esprit.examen.entities.DetailFacture;
 import com.esprit.examen.entities.Produit;
-import com.esprit.examen.entities.Stock;
+import com.esprit.examen.entities.dto.ProduitRequestModel;
 import com.esprit.examen.services.IProduitService;
 
 import io.swagger.annotations.Api;
@@ -22,17 +18,6 @@ import io.swagger.annotations.Api;
 @Api(tags = "Gestion des produits")
 @RequestMapping("/produit")
 public class ProduitRestController {
-	public class ProduitRequestModel{
-		private Long idProduit;
-		private String codeProduit;
-		private String libelleProduit;
-		private float prix;
-		private Date dateCreation;
-		private Date dateDerniereModification;
-		private Stock stock;
-		private Set<DetailFacture> detailFacture;
-		private CategorieProduit categorieProduit;
-	}
 	@Autowired
 	IProduitService produitService;
 
@@ -52,16 +37,7 @@ public class ProduitRestController {
 	@PostMapping("/add-produit")
 	@ResponseBody
 	public Produit addProduit(@RequestBody ProduitRequestModel prod) {
-		Produit p = new Produit();
-		p.setCategorieProduit(prod.categorieProduit);
-		p.setCodeProduit(prod.codeProduit);
-		p.setDateCreation(prod.dateCreation);
-		p.setDateDerniereModification(prod.dateDerniereModification);
-		p.setDetailFacture(prod.detailFacture);
-		p.setLibelleProduit(prod.libelleProduit);
-		p.setPrix(prod.prix);
-		p.setStock(prod.stock);
-		return produitService.addProduit(p);
+		return produitService.addProduit(prod);
 	}
 
 	@DeleteMapping("/remove-produit/{produit-id}")
@@ -74,17 +50,7 @@ public class ProduitRestController {
 	@PutMapping("/modify-produit")
 	@ResponseBody
 	public Produit modifyProduit(@RequestBody ProduitRequestModel prod) {
-		Produit p = new Produit();
-		p.setCategorieProduit(prod.categorieProduit);
-		p.setCodeProduit(prod.codeProduit);
-		p.setDateCreation(prod.dateCreation);
-		p.setDateDerniereModification(prod.dateDerniereModification);
-		p.setDetailFacture(prod.detailFacture);
-		p.setIdProduit(prod.idProduit);
-		p.setLibelleProduit(prod.libelleProduit);
-		p.setPrix(prod.prix);
-		p.setStock(prod.stock);
-		return produitService.updateProduit(p);
+		return produitService.updateProduit(prod);
 	}
 
 	@PutMapping(value = "/assignProduitToStock/{idProduit}/{idStock}")
