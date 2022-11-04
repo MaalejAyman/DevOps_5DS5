@@ -3,8 +3,12 @@ package com.esprit.examen.services;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.esprit.examen.entities.dto.StockRequestModel;
 import com.esprit.examen.entities.Stock;
 import com.esprit.examen.repositories.StockRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +19,7 @@ public class StockServiceImpl implements IStockService {
 
 	@Autowired
 	StockRepository stockRepository;
-
+	ModelMapper modelmapper=new ModelMapper();
 
 	@Override
 	public List<Stock> retrieveAllStocks() {
@@ -32,8 +36,9 @@ public class StockServiceImpl implements IStockService {
 	}
 
 	@Override
-	public Stock addStock(Stock s) {
+	public Stock addStock(StockRequestModel stock) {
 		// récuperer la date à l'instant t1
+		Stock s =modelmapper.map(stock, Stock.class);
 		log.info("In method addStock");
 		return stockRepository.save(s);
 		
@@ -47,8 +52,9 @@ public class StockServiceImpl implements IStockService {
 	}
 
 	@Override
-	public Stock updateStock(Stock s) {
+	public Stock updateStock(StockRequestModel stock) {
 		log.info("In method updateStock");
+		Stock s =modelmapper.map(stock, Stock.class);
 		return stockRepository.save(s);
 	}
 
