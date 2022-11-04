@@ -39,8 +39,8 @@ public class ProduitServiceImpl implements IProduitService {
 	@Transactional
 	public Produit addProduit(ProduitRequestModel prod) {
 		Produit p = modelMapper.map(prod,Produit.class);
-		produitRepository.save(p);
-		return p;
+		
+		return produitRepository.save(p);
 	}
 
 	
