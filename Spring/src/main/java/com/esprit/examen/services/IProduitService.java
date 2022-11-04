@@ -2,16 +2,17 @@ package com.esprit.examen.services;
 
 import java.util.List;
 import com.esprit.examen.entities.Produit;
+import com.esprit.examen.entities.dto.ProduitRequestModel;
 
 public interface IProduitService {
 
 	List<Produit> retrieveAllProduits();
 
-	Produit addProduit(Produit p);
+	Produit addProduit(ProduitRequestModel p);
 
 	void deleteProduit(Long id);
 
-	Produit updateProduit(Produit p);
+	Produit updateProduit(ProduitRequestModel prod);
 
 	Produit retrieveProduit(Long id);
 
