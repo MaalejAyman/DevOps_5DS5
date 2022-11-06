@@ -3,6 +3,7 @@ package com.esprit.examen.controllers;
 import java.util.List;
 
 import com.esprit.examen.entities.dto.SecteurActiviteRequestModel;
+import com.esprit.examen.repositories.SecteurActiviteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.esprit.examen.entities.SecteurActivite;
