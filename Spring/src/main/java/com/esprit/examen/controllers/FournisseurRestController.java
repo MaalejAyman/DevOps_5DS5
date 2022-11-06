@@ -19,6 +19,7 @@ import com.esprit.examen.entities.DetailFournisseur;
 import com.esprit.examen.entities.Facture;
 import com.esprit.examen.entities.Fournisseur;
 import com.esprit.examen.entities.SecteurActivite;
+import com.esprit.examen.entities.dto.FournisseurRequestModel;
 import com.esprit.examen.services.IFournisseurService;
 
 import io.swagger.annotations.Api;
@@ -32,15 +33,6 @@ public class FournisseurRestController {
 	@Autowired
 	IFournisseurService fournisseurService;
 	
-	public class FournisseurRequestModel {
-
-		private String code;
-		private String libelle;
-		private CategorieFournisseur  categorieFournisseur;
-		private Set<Facture> factures;
-	    private Set<SecteurActivite> secteurActivites;
-	    private DetailFournisseur detailFournisseur;
-		}
 
 	// http://localhost:8089/SpringMVC/fournisseur/retrieve-all-fournisseurs
 	@GetMapping("/retrieve-all-fournisseurs")
@@ -62,16 +54,7 @@ public class FournisseurRestController {
 	@ResponseBody
 	public Fournisseur addFournisseur(@RequestBody FournisseurRequestModel fournisseur) {
 		
-		Fournisseur  f = new Fournisseur();
-		
-		f.setCode(fournisseur.code);
-		f.setLibelle(fournisseur.libelle);
-		f.setCategorieFournisseur(fournisseur.categorieFournisseur);
-		f.setFactures(fournisseur.factures);
-		f.setSecteurActivites(fournisseur.secteurActivites);
-		f.setDetailFournisseur(fournisseur.detailFournisseur);
-		
-		return fournisseurService.addFournisseur(f);
+		return fournisseurService.addFournisseur(fournisseur);
 	}
 
 
@@ -86,16 +69,7 @@ public class FournisseurRestController {
 	@ResponseBody
 	public Fournisseur modifyFournisseur(@RequestBody FournisseurRequestModel fournisseur) {
 		
-		Fournisseur  f = new Fournisseur();
-		
-		f.setCode(fournisseur.code);
-		f.setLibelle(fournisseur.libelle);
-		f.setCategorieFournisseur(fournisseur.categorieFournisseur);
-		f.setFactures(fournisseur.factures);
-		f.setSecteurActivites(fournisseur.secteurActivites);
-		f.setDetailFournisseur(fournisseur.detailFournisseur);
-		
-		return fournisseurService.updateFournisseur(f);
+		return fournisseurService.updateFournisseur(fournisseur);
 	}
 
 	// http://localhost:8089/SpringMVC/fournisseur/assignSecteurActiviteToFournisseur/1/5
