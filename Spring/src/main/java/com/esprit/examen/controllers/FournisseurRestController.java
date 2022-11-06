@@ -1,6 +1,8 @@
 package com.esprit.examen.controllers;
 
 import java.util.List;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +13,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.esprit.examen.entities.CategorieFournisseur;
+import com.esprit.examen.entities.DetailFournisseur;
+import com.esprit.examen.entities.Facture;
 import com.esprit.examen.entities.Fournisseur;
+import com.esprit.examen.entities.SecteurActivite;
+import com.esprit.examen.entities.dto.FournisseurRequestModel;
 import com.esprit.examen.services.IFournisseurService;
 
 import io.swagger.annotations.Api;
@@ -24,6 +32,7 @@ public class FournisseurRestController {
 
 	@Autowired
 	IFournisseurService fournisseurService;
+	
 
 	// http://localhost:8089/SpringMVC/fournisseur/retrieve-all-fournisseurs
 	@GetMapping("/retrieve-all-fournisseurs")
@@ -43,9 +52,9 @@ public class FournisseurRestController {
 	// http://localhost:8089/SpringMVC/fournisseur/add-fournisseur
 	@PostMapping("/add-fournisseur")
 	@ResponseBody
-	public Fournisseur addFournisseur(@RequestBody Fournisseur f) {
-					
-		return fournisseurService.addFournisseur(f);
+	public Fournisseur addFournisseur(@RequestBody FournisseurRequestModel fournisseur) {
+		
+		return fournisseurService.addFournisseur(fournisseur);
 	}
 
 
@@ -58,7 +67,8 @@ public class FournisseurRestController {
 	// http://localhost:8089/SpringMVC/fournisseur/modify-fournisseur
 	@PutMapping("/modify-fournisseur")
 	@ResponseBody
-	public Fournisseur modifyFournisseur(@RequestBody Fournisseur fournisseur) {
+	public Fournisseur modifyFournisseur(@RequestBody FournisseurRequestModel fournisseur) {
+		
 		return fournisseurService.updateFournisseur(fournisseur);
 	}
 
