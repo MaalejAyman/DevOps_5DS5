@@ -3,13 +3,14 @@ package com.esprit.examen.services;
 import java.util.Date;
 import java.util.List;
 import com.esprit.examen.entities.Facture;
+import com.esprit.examen.entities.dto.FactureRequestModel;
 
 public interface IFactureService {
 	List<Facture> retrieveAllFactures();
 
 	List<Facture> getFacturesByFournisseur(Long idFournisseur);
 
-	Facture addFacture(Facture f);
+	Facture addFacture(FactureRequestModel f);
 
 	void cancelFacture(Long id);
 
