@@ -3,10 +3,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 
 import com.esprit.examen.entities.SecteurActivite;
@@ -79,5 +82,39 @@ public class SecteurServiceImplTest {
         List<SecteurActivite> secteurs = secteurService.retrieveAllSecteurActivite();
         assertEquals(2, secteurs.size());
         assertNotNull(secteurs);
+    }
+    @Test
+    public void getSecteurById() {
+        init();
+        when(secteurRepository.save(any(SecteurActivite.class))).thenReturn(s1);
+        SecteurActiviteRequestModel srm=modelMapper.map(s1, SecteurActiviteRequestModel .class);
+        SecteurActivite snew= secteurService.addSecteurActivite(srm);
+        when(secteurRepository.findById(anyLong())).thenReturn(Optional.of(s1));
+        SecteurActivite existingsecteur= secteurService.retrieveSecteurActivite(snew.getIdSecteurActivite());
+        assertNotNull(existingsecteur);
+        assertThat(existingsecteur.getIdSecteurActivite()).isNotNull();
+    }
+    @Test
+    public void updateSecteur() {
+        init();
+        when(secteurRepository.findById(anyLong())).thenReturn(Optional.of(s1));
+
+        when(secteurRepository.save(any(SecteurActivite.class))).thenReturn(s1);
+        s1.setCodeSecteurActivite("00");
+        SecteurActiviteRequestModel srm=modelMapper.map(s1, SecteurActiviteRequestModel.class);
+        SecteurActivite existingsecteur = secteurService.updateSecteurActivite(srm);
+
+        assertNotNull(existingsecteur);
+        assertEquals("00", existingsecteur.getCodeSecteurActivite());
+    }
+    @Test
+    public void deleteOperateur() {
+        init();
+        Long SecteurId = 0L;
+        when(secteurRepository.findById(anyLong())).thenReturn(Optional.of(s1));
+        doNothing().when(secteurRepository).deleteById(anyLong());
+        secteurService.deleteSecteurActivite(SecteurId);
+        verify(secteurRepository, times(1)).deleteById(anyLong());
+
     }
 }

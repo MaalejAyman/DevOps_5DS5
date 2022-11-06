@@ -4,9 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.*;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import com.esprit.examen.entities.Operateur;
 import com.esprit.examen.entities.dto.OperateurRequestModel;
 import com.esprit.examen.repositories.OperateurRepository;
@@ -78,6 +82,41 @@ public class OperateurServiceImplTest {
         assertEquals(2, operateurs.size());
         assertNotNull(operateurs);
     }
+    @Test
+    public void getOperateurById() {
+        init();
+        when(operateurRepository.save(any(Operateur.class))).thenReturn(o1);
+        OperateurRequestModel orm=modelMapper.map(o1, OperateurRequestModel.class);
+        Operateur onew= operateurService.addOperateur(orm);
+        when(operateurRepository.findById(anyLong())).thenReturn(Optional.of(o1));
+        Operateur existingoperateur = operateurService.retrieveOperateur(onew.getIdOperateur());
+        assertNotNull(existingoperateur);
+        assertThat(existingoperateur.getIdOperateur()).isNotNull();
+    }
+    @Test
+    public void updateOperateur() {
+        init();
+        when(operateurRepository.findById(anyLong())).thenReturn(Optional.of(o1));
+
+        when(operateurRepository.save(any(Operateur.class))).thenReturn(o1);
+        o1.setPassword("001");
+        OperateurRequestModel orm=modelMapper.map(o1, OperateurRequestModel.class);
+        Operateur exisitingOperateur = operateurService.updateOperateur(orm);
+
+        assertNotNull(exisitingOperateur);
+        assertEquals("001", exisitingOperateur.getPassword());
+    }
+    @Test
+    public void deleteOperateur() {
+        init();
+        Long ProduitId = 0L;
+        when(operateurRepository.findById(anyLong())).thenReturn(Optional.of(o1));
+        doNothing().when(operateurRepository).deleteById(anyLong());
+        operateurService.deleteOperateur(ProduitId);
+        verify(operateurRepository, times(1)).deleteById(anyLong());
+
+    }
+
 }
 
 
