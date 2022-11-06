@@ -3,6 +3,7 @@ package com.esprit.examen.services;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class StockServiceImpl implements IStockService {
 	@Override
 	public Stock addStock(StockRequestModel stock) {
 		// récuperer la date à l'instant t1
-		Stock s =modelmapper.map(stock, Stock.class);
+		Stock s = modelmapper.map(stock, Stock.class);
 		log.info("In method addStock");
 		return stockRepository.save(s);
 		
@@ -62,12 +63,14 @@ public class StockServiceImpl implements IStockService {
 	public Stock retrieveStock(Long stockId) {
 		long start = System.currentTimeMillis();
 		log.info("In method retrieveStock");
-		Stock stock = stockRepository.findById(stockId).orElse(null);
-		log.info("out of method retrieveStock");
-		 long elapsedTime = System.currentTimeMillis() - start;
-		log.info("Method execution time: " + elapsedTime + " milliseconds.");
-
-		return stock;
+		Optional<Stock> stock = stockRepository.findById(stockId);
+		if(stock.isPresent()) {
+			log.info("out of method retrieveStock");
+			long elapsedTime = System.currentTimeMillis() - start;
+			log.info("Method execution time: " + elapsedTime + " milliseconds.");
+			return stock.get();
+		}
+		return null; 
 	}
 
 	@Override
