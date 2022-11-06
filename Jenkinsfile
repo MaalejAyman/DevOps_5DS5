@@ -33,7 +33,7 @@ pipeline {
         stage("Maven Build") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' package -DskipTests=true"
+                    sh "mvn -f'Spring/pom.xml' package -DskipTests=false"
                 }
                 echo ":$BUILD_NUMBER"
             }
