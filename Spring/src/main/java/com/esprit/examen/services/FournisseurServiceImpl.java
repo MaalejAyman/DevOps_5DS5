@@ -17,7 +17,6 @@ import com.esprit.examen.repositories.FournisseurRepository;
 import com.esprit.examen.repositories.ProduitRepository;
 import com.esprit.examen.repositories.SecteurActiviteRepository;
 
-import io.swagger.models.Model;
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -45,58 +44,36 @@ public class FournisseurServiceImpl implements IFournisseurService {
 	}
 
 
-/*
-	public Fournisseur addFournisseur(Fournisseur f ) {
-		DetailFournisseur df= new DetailFournisseur();//Slave
-		df.setDateDebutCollaboration(new Date()); //util
-		//On affecte le "Slave" au "Master"
-		f.setDetailFournisseur(df);	
-		fournisseurRepository.save(f);
-		return f;
-	}
-*/
 	
-	public Fournisseur addFournisseur(FournisseurRequestModel FRM ) {
+	public Fournisseur addFournisseur(FournisseurRequestModel fournisseur ) {
 		
-		Fournisseur fournisseur = modelMapper.map(FRM, Fournisseur.class);
+		Fournisseur fournisseur1 = modelMapper.map(fournisseur, Fournisseur.class);
 		
 		DetailFournisseur df= new DetailFournisseur();//Slave
 		df.setDateDebutCollaboration(new Date()); //util
 		//On affecte le "Slave" au "Master"
 		fournisseur.setDetailFournisseur(df);	
-		fournisseurRepository.save(fournisseur);
-		return fournisseur;
+		fournisseurRepository.save(fournisseur1);
+		return fournisseur1;
 	}
 	
-/*	private DetailFournisseur  saveDetailFournisseur(Fournisseur f){
-		DetailFournisseur df = f.getDetailFournisseur();
-		detailFournisseurRepository.save(df);
-		return df;
-	}*/
 
-	private DetailFournisseur  saveDetailFournisseur(FournisseurRequestModel FRM){
-		Fournisseur fournisseur = modelMapper.map(FRM, Fournisseur.class);
-		DetailFournisseur df = fournisseur.getDetailFournisseur();
+	private DetailFournisseur  saveDetailFournisseur(FournisseurRequestModel fournisseur){
+		Fournisseur fournisseur1 = modelMapper.map(fournisseur, Fournisseur.class);
+		DetailFournisseur df = fournisseur1.getDetailFournisseur();
 		detailFournisseurRepository.save(df);
 		return df;
 	}
 	
-	/*
-	public Fournisseur updateFournisseur(Fournisseur f) {
-		DetailFournisseur df = saveDetailFournisseur(f);
-		f.setDetailFournisseur(df);	
-		fournisseurRepository.save(f);
-		return f;
-	}*/
 	
-	public Fournisseur updateFournisseur(FournisseurRequestModel FRM) {
+	public Fournisseur updateFournisseur(FournisseurRequestModel fournisseur) {
 		
-		DetailFournisseur df = saveDetailFournisseur(FRM);
-		FRM.setDetailFournisseur(df);	
+		DetailFournisseur df = saveDetailFournisseur(fournisseur);
+		fournisseur.setDetailFournisseur(df);	
 		
-		Fournisseur fournisseur = modelMapper.map(FRM, Fournisseur.class);
-		fournisseurRepository.save(fournisseur);
-		return fournisseur;
+		Fournisseur fournisseur1 = modelMapper.map(fournisseur, Fournisseur.class);
+		fournisseurRepository.save(fournisseur1);
+		return fournisseur1;
 	}
 
 	@Override

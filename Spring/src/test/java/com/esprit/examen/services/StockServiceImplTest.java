@@ -111,6 +111,6 @@ public class StockServiceImplTest {
 		when(stockRepository.findById(anyLong())).thenReturn(Optional.of(s1));
 		doNothing().when(stockRepository).deleteById(anyLong());
 		stockService.deleteStock(StockId);
-		
+		verify(stockRepository, times(1)).deleteById(anyLong());
 	}
 }
