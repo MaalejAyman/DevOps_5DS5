@@ -3,10 +3,11 @@ package com.esprit.examen.services;
 import java.util.Date;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.esprit.examen.entities.Facture;
 import com.esprit.examen.entities.Reglement;
+import com.esprit.examen.entities.dto.ReglementRequestModel;
 import com.esprit.examen.repositories.FactureRepository;
 import com.esprit.examen.repositories.ReglementRepository;
 
@@ -17,32 +18,28 @@ public class ReglementServiceImpl implements IReglementService {
 	FactureRepository factureRepository;
 	@Autowired
 	ReglementRepository reglementRepository;
+	ModelMapper modelMapper = new ModelMapper();
 	@Override
 	public List<Reglement> retrieveAllReglements() {
 		return (List<Reglement>) reglementRepository.findAll();
 	}
 
 	@Override
-	public Reglement addReglement(Reglement r) {
-        reglementRepository.save(r);
-		return r;
+	public Reglement addReglement(ReglementRequestModel r) {
+		Reglement reg = modelMapper.map(r,Reglement.class);
+		return reglementRepository.save(reg);
 	}
 
 	@Override
 	public Reglement retrieveReglement(Long id) {
-		Reglement reglement = reglementRepository.findById(id).orElse(null);
-		
-		return reglement;
+		return reglementRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	public List<Reglement> retrieveReglementByFacture(Long idFacture) {
-		List<Reglement> reglements= reglementRepository.retrieveReglementByFacture(idFacture);
-		return reglements;
+		return reglementRepository.retrieveReglementByFacture(idFacture);
 		
-//		ou bien(Sans JPQL)
-//		Facture f= factureRepository.findById(idFacture).get();
-//		return (List<Reglement>) f.getReglements();
+
 	}
 
 	@Override
