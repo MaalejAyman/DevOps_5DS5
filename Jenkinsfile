@@ -91,5 +91,12 @@ pipeline {
                         }
                     }
         }
+        stage('Push to DockerHub') {
+                    steps{
+                        dir('Spring'){
+                            sh 'docker push $DOCKER_CREDS_USR/tpachat'
+                             }
+                        }
+                    }
     }
 }
