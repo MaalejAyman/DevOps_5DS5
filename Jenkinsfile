@@ -83,9 +83,10 @@ pipeline {
                 }
             }
         }
-        stage('Login to DockerHub') {
+         stage('Login to DockerHub') {
                     steps{
                         dir('Spring'){
+                            echo DOCKER_CREDS_USR
                                 sh('docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW')
                         }
                     }
