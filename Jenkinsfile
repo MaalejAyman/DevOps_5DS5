@@ -6,6 +6,7 @@ pipeline {
         NEXUS_URL = "172.10.0.140:8081"
         NEXUS_REPOSITORY = "maven-releases"
         NEXUS_CREDENTIAL_ID = "Nexus-Creds"
+        DOCKER_CREDENTIAL_ID = "Docker-Creds"
         VERSION= "1.${env.BUILD_NUMBER}"
     }
     stages {
@@ -80,6 +81,15 @@ pipeline {
                     }
                 }
             }
+        }
+        stage('Login to DockerHub') {
+                    steps{
+                        dir('Spring'){
+                            withCredentials([usernamePassword(credentialsId: 'Docker-Creds', passwordVariable: 'dockerKey', usernameVariable: 'dockerUser')]){
+                                sh 'docker login -u dockerUser -p dockerKey'
+                            }
+                        }
+                    }
         }
     }
 }
