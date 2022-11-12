@@ -54,7 +54,6 @@ public class FactureServiceImpl implements IFactureService {
 	
 	public Facture addFacture(FactureRequestModel f) {
 		Facture facture = modelMapper.map(f,Facture.class);
-		
 		return factureRepository.save(facture);
 	}
 
