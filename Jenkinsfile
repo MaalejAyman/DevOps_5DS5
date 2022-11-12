@@ -6,7 +6,7 @@ pipeline {
         NEXUS_URL = "172.10.0.140:8081"
         NEXUS_REPOSITORY = "maven-releases"
         NEXUS_CREDENTIAL_ID = "Nexus-Creds"
-        VERSION= "1."+${env.BUILD_NUMBER}
+        VERSION= "1.${env.BUILD_NUMBER}"
     }
     stages {
         
