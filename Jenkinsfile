@@ -13,35 +13,35 @@ pipeline {
         stage("Maven Clean") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' clean -DskipTests=true -Drevision=VERSION"
+                    sh "mvn -f'Spring/pom.xml' clean -DskipTests=true -Drevision=${VERSION}"
                 }
             }
         }
         stage("Maven Compile") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' compile -DskipTests=true -Drevision=VERSION"
+                    sh "mvn -f'Spring/pom.xml' compile -DskipTests=true -Drevision=${VERSION}"
                 }
             }
         }
         stage("Maven test") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' test"
+                    sh "mvn -f'Spring/pom.xml' test -Drevision=${VERSION}"
                 }
             }
         }
         stage("Maven Sonarqube") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=Admin -Drevision=VERSION"
+                    sh "mvn -f'Spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=Admin -Drevision=${VERSION}"
                 }
             }
         }
         stage("Maven Build") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' package -DskipTests=true -Drevision=VERSION"
+                    sh "mvn -f'Spring/pom.xml' package -DskipTests=true -Drevision=${VERSION}"
                 }
                 echo ":$BUILD_NUMBER"
             }
