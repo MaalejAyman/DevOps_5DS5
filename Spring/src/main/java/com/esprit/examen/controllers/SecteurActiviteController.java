@@ -2,6 +2,7 @@ package com.esprit.examen.controllers;
 
 import java.util.List;
 
+import com.esprit.examen.entities.dto.SecteurActiviteRequestModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.esprit.examen.entities.SecteurActivite;
@@ -22,8 +23,8 @@ public class SecteurActiviteController {
 	@GetMapping("/retrieve-all-secteurActivite")
 	@ResponseBody
 	public List<SecteurActivite> getSecteurActivite() {
-		List<SecteurActivite> list = secteurActiviteService.retrieveAllSecteurActivite();
-		return list;
+		return secteurActiviteService.retrieveAllSecteurActivite();
+
 	}
 
 	// http://localhost:8089/SpringMVC/secteurActivite/retrieve-secteurActivite/8
@@ -36,12 +37,10 @@ public class SecteurActiviteController {
 	// http://localhost:8089/SpringMVC/secteurActivite/add-secteurActivite
 	@PostMapping("/add-secteurActivite")
 	@ResponseBody
-	public SecteurActivite addSecteurActivite(@RequestBody SecteurActivite sa) {
-		SecteurActivite secteurActivite = secteurActiviteService.addSecteurActivite(sa);
-		return secteurActivite;
+	public SecteurActivite addSecteurActivite(@RequestBody SecteurActiviteRequestModel sa) {
+		return secteurActiviteService.addSecteurActivite(sa);
 	}
 
-	// http://localhost:8089/SpringMVC/secteurActivite/remove-secteurActivite/{secteurActivite-id}
 	@DeleteMapping("/remove-secteurActivite/{secteurActivite-id}")
 	@ResponseBody
 	public void removeSecteurActivite(@PathVariable("secteurActivite-id") Long secteurActiviteId) {
@@ -51,7 +50,7 @@ public class SecteurActiviteController {
 	// http://localhost:8089/SpringMVC/secteurActivite/modify-secteurActivite
 	@PutMapping("/modify-secteurActivite")
 	@ResponseBody
-	public SecteurActivite modifySecteurActivite(@RequestBody SecteurActivite secteurActivite) {
+	public SecteurActivite modifySecteurActivite(@RequestBody SecteurActiviteRequestModel secteurActivite) {
 		return secteurActiviteService.updateSecteurActivite(secteurActivite);
 	}
 
