@@ -6,20 +6,21 @@ pipeline {
         NEXUS_URL = "172.10.0.140:8081"
         NEXUS_REPOSITORY = "maven-releases"
         NEXUS_CREDENTIAL_ID = "Nexus-Creds"
+        VERSION= "1."+${env.BUILD_NUMBER}
     }
     stages {
         
         stage("Maven Clean") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' clean -DskipTests=true"
+                    sh "mvn -f'Spring/pom.xml' clean -DskipTests=true -Drevision=VERSION"
                 }
             }
         }
         stage("Maven Compile") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' compile -DskipTests=true"
+                    sh "mvn -f'Spring/pom.xml' compile -DskipTests=true -Drevision=VERSION"
                 }
             }
         }
@@ -33,14 +34,14 @@ pipeline {
         stage("Maven Sonarqube") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=Admin"
+                    sh "mvn -f'Spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=Admin -Drevision=VERSION"
                 }
             }
         }
         stage("Maven Build") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' package -DskipTests=false"
+                    sh "mvn -f'Spring/pom.xml' package -DskipTests=true -Drevision=VERSION"
                 }
                 echo ":$BUILD_NUMBER"
             }
@@ -54,13 +55,13 @@ pipeline {
                     artifactPath = filesByGlob[0].path;
                     artifactExists = fileExists artifactPath;
                     if(artifactExists) {
-                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${VERSION}";
                         nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
                             protocol: NEXUS_PROTOCOL,
                             nexusUrl: NEXUS_URL,
                             groupId: pom.groupId,
-                            version: pom.version,
+                            version: VERSION,
                             repository: NEXUS_REPOSITORY,
                             credentialsId: NEXUS_CREDENTIAL_ID,
                             artifacts: [
