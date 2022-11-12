@@ -111,6 +111,6 @@ pipeline {
                             sh 'docker push $DOCKER_CREDS_USR/tpachat'
                              }
                         }
-        
+        }
     }
 }
