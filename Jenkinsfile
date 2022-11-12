@@ -8,6 +8,7 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "Nexus-Creds"
         DOCKER_CREDENTIAL_ID = "Docker-Creds"
         VERSION= "1.${env.BUILD_NUMBER}"
+        DOCKER_CREDS = credentials('Docker-Creds')
     }
     stages {
         
@@ -85,9 +86,7 @@ pipeline {
         stage('Login to DockerHub') {
                     steps{
                         dir('Spring'){
-                            withCredentials([usernamePassword(credentialsId: 'Docker-Creds', passwordVariable: 'dockerKey', usernameVariable: 'dockerUser')]){
-                                sh "docker login -u ${dockerUser} -p ${dockerKey}"
-                            }
+                                sh('docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW')
                         }
                     }
         }
