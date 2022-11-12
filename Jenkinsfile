@@ -83,6 +83,13 @@ pipeline {
                 }
             }
         }
+        stage('Building Docker Image') {
+                    steps {
+                        dir('Spring'){
+                            sh 'docker build -t $DOCKER_CREDS_USR/tpachat .'
+                                }
+                            }
+                        }
          stage('Login to DockerHub') {
                     steps{
                         dir('Spring'){
