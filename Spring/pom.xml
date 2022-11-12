@@ -9,7 +9,7 @@
 	</parent>
 	<groupId>com.esprit.examen</groupId>
 	<artifactId>tpAchatProject</artifactId>
-	<version>1.0</version>
+	<version>${revision}</version>
 	<name>tpAchatProject</name>
 	<description>tpAchatProject</description>
 	<properties>
