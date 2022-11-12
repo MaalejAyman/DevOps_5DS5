@@ -104,6 +104,10 @@ pipeline {
                             sh 'docker push $DOCKER_CREDS_USR/tpachat'
                              }
                         }
+            stage('Pull the file off Nexus') {steps{
+        withCredentials([usernameColonPassword(credentialsId: 'Nexus-Creds', variable: 'NEXUS_CREDENTIALS')]) {
+            sh script: 'curl -u ${NEXUS_CREDENTIALS} -o tpachat.jar "$NEXUS_URL/repository/$NEXUS_REPOSITORY/com/esprit/examen/tpAchatProject/$VERSION/tpAchatProject-$VERSION.jar"'
+        }
                     }
     }
 }
