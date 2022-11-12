@@ -1,8 +1,10 @@
-FROM node:lts
-RUN mkdir /home/node/app && chown node:node /home/node/app
-RUN mkdir /home/node/app/node_modules && chown node:node /home/node/app/node_modules
-WORKDIR  /home/node/app
-USER node
-COPY --chown=node:node package.json package-lock.json ./
-RUN npm ci --quiet
-COPY --chown=node:node . .
+# Stage 1
+FROM node:10-alpine as build-step
+RUN mkdir -p /app
+WORKDIR /app
+COPY package.json /app
+RUN npm install
+COPY . /app
+RUN npm run build --prod
+FROM nginx:1.17.1-alpine
+COPY --from=build-step /app/docs /usr/share/nginx/html
