@@ -86,7 +86,7 @@ pipeline {
                     steps{
                         dir('Spring'){
                             withCredentials([usernamePassword(credentialsId: 'Docker-Creds', passwordVariable: 'dockerKey', usernameVariable: 'dockerUser')]){
-                                sh 'docker login -u dockerUser -p dockerKey'
+                                sh "docker login -u ${dockerUser} -p ${dockerKey}"
                             }
                         }
                     }
