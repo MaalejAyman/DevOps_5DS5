@@ -86,7 +86,7 @@ pipeline {
         stage('Pull the file off Nexus') {
             steps{
         withCredentials([usernameColonPassword(credentialsId: 'Nexus-Creds', variable: 'NEXUS_CREDENTIALS')]) {
-            sh script: 'sudo curl -u ${NEXUS_CREDENTIALS} -o /home/res/tpachat.jar "$NEXUS_URL/repository/$NEXUS_REPOSITORY/com/esprit/examen/tpAchatProject/$VERSION/tpAchatProject-$VERSION.jar"'
+            sh script: 'curl -u ${NEXUS_CREDENTIALS} -o /var/lib/jenkins/res/tpachat.jar "$NEXUS_URL/repository/$NEXUS_REPOSITORY/com/esprit/examen/tpAchatProject/$VERSION/tpAchatProject-$VERSION.jar"'
         }
                     }
         }
