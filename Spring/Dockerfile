@@ -1,4 +1,4 @@
 FROM openjdk:8-jdk-alpine
 EXPOSE 8089
-ADD target/tpAchatProject-1.2.jar tpAchatProject-1.2.jar
-ENTRYPOINT ["java","-jar","/tpAchatProject-1.2.jar"]
+ADD /var/lib/jenkins/res/tpachat.jar tpachat.jar
+ENTRYPOINT ["java","-jar","/tpachat.jar"]
