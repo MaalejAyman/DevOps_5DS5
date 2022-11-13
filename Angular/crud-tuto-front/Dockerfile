@@ -8,4 +8,4 @@ FROM node:16.10-alpine3.11
     
     COPY . .
     RUN ng build --prod
-ENTRYPOINT ["ng","serve","--host","172.10.0.140","--port","4201"]
+ENTRYPOINT ["ng","serve","--host","0.0.0.0","--port","4201"]
