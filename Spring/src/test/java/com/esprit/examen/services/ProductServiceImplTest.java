@@ -124,7 +124,9 @@ public class ProductServiceImplTest {
 		assertThat(p3).isNull();
 		when(produitRepository.findById(anyLong())).thenReturn(null);
 		Optional<Produit>  produit = java.util.Optional.empty();
+		Optional<Stock>  stock = java.util.Optional.empty();
 		assertTrue(produit.isPresent());
+		assertTrue(stock.isPresent());
 		when(stockrepository.findById(anyLong())).thenReturn(Optional.of(s1));
 		when(produitRepository.findById(anyLong())).thenReturn(Optional.of(p1));
 		assertNotNull(p1);
