@@ -90,10 +90,17 @@ pipeline {
         }
                     }
         }
-        stage('Building Docker Image') {
+        stage('Building Docker Image Spring') {
                     steps {
                         dir('Spring'){
-                            sh 'docker build -t $DOCKER_CREDS_USR/tpachat .'
+                            sh 'docker build -t $DOCKER_CREDS_USR/tpachatback .'
+                                }
+                            }
+                        }
+        stage('Building Docker Image Angular') {
+                    steps {
+                        dir('Angular/crud-tuto-front'){
+                            sh 'docker build -t $DOCKER_CREDS_USR/tpachatfront .'
                                 }
                             }
                         }
@@ -105,10 +112,11 @@ pipeline {
                         }
                     }
         }
-        stage('Push to DockerHub') {
+        stage('Push to DockerHub (Angular and Spring )') {
                     steps{
                         dir('Spring'){
-                            sh 'docker push $DOCKER_CREDS_USR/tpachat'
+                            sh 'docker push $DOCKER_CREDS_USR/tpachatback'
+                            sh 'docker push $DOCKER_CREDS_USR/tpachatfront'
                              }
                         }
         }
