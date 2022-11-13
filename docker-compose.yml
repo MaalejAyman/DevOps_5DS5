@@ -15,7 +15,7 @@ services:
   app:
     depends_on:
       - mysqldb
-    build: .
+    build: ./Spring
     restart: on-failure
     env_file: ./Spring/.env
     ports:
@@ -29,7 +29,7 @@ services:
         "spring.jpa.hibernate.ddl-auto" : "update"
       }'
     volumes:
-      - .m2:/root/.m2
+      - .m2:/home/.m2
     stdin_open: true
     tty: true
 
@@ -39,9 +39,8 @@ volumes:
     depends_on:
       - app
     build: ./Angular/crud-tuto-front/
-    command: sh -c "npm start"
     ports:
-      - 4200:4200
+      - 4201:4201
     working_dir: /home/node/app
     volumes:
       - ./:/home/node/app
