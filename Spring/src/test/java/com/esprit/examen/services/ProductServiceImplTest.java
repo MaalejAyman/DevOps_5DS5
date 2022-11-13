@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,9 +22,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import com.esprit.examen.entities.Produit;
 import com.esprit.examen.entities.dto.ProduitRequestModel;
@@ -120,7 +117,7 @@ public class ProductServiceImplTest {
 	@Test
 	public void deleteProduit() {
 		init();
-		Long ProduitId = 1L;
+		Long ProduitId = 0L;
 		when(produitRepository.findById(anyLong())).thenReturn(Optional.of(p1));
 		doNothing().when(produitRepository).deleteById(anyLong());
 		produitService.deleteProduit(ProduitId);
