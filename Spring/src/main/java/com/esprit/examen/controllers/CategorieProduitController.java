@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import com.esprit.examen.entities.CategorieProduit;
 import com.esprit.examen.entities.Produit;
+import com.esprit.examen.entities.dto.CategorieProduitRequestModel;
 import com.esprit.examen.services.ICategorieProduitService;
 import io.swagger.annotations.Api;
 
@@ -22,12 +23,8 @@ import io.swagger.annotations.Api;
 @Api(tags = "Gestion des categories Produit")
 @RequestMapping("/categorieProduit")
 public class CategorieProduitController {
-	public class CategorieProduitRequestModel {
-		private Long idCategorieProduit;
-		private String codeCategorie;
-		private String libelleCategorie;
-		private Set<Produit> produits;
-		}
+
+
 	@Autowired
 	ICategorieProduitService categorieProduitService;
 	
@@ -49,11 +46,7 @@ public class CategorieProduitController {
 	@PostMapping("/add-categorieProduit")
 	@ResponseBody
 	public CategorieProduit addCategorieProduit(@RequestBody CategorieProduitRequestModel cp) {
-		CategorieProduit categorieProduit = new CategorieProduit();
-		categorieProduit.setIdCategorieProduit(cp.idCategorieProduit);
-		categorieProduit.setCodeCategorie(cp.codeCategorie);
-		categorieProduit.setLibelleCategorie(cp.libelleCategorie);
-		return categorieProduitService.addCategorieProduit(categorieProduit);
+		return categorieProduitService.addCategorieProduit(cp);
 	}
 
 	@DeleteMapping("/remove-categorieProduit/{categorieProduit-id}")
@@ -65,12 +58,7 @@ public class CategorieProduitController {
 	// http://localhost:8089/SpringMVC/categorieProduit/modify-categorieProduit
 	@PutMapping("/modify-categorieProduit")
 	@ResponseBody
-	public CategorieProduit modifyCategorieProduit(@RequestBody CategorieProduitRequestModel cp) {
-		CategorieProduit categorieProduit = new CategorieProduit();
-		categorieProduit.setIdCategorieProduit(cp.idCategorieProduit);
-		categorieProduit.setCodeCategorie(cp.codeCategorie);
-		categorieProduit.setLibelleCategorie(cp.libelleCategorie);
-		categorieProduit.setProduits(cp.produits);
+	public CategorieProduit modifyCategorieProduit(@RequestBody CategorieProduitRequestModel categorieProduit) {
 		return categorieProduitService.updateCategorieProduit(categorieProduit);
 	}
 
