@@ -6,41 +6,44 @@ pipeline {
         NEXUS_URL = "172.10.0.140:8081"
         NEXUS_REPOSITORY = "maven-releases"
         NEXUS_CREDENTIAL_ID = "Nexus-Creds"
+        DOCKER_CREDENTIAL_ID = "Docker-Creds"
+        VERSION= "1.${env.BUILD_NUMBER}"
+        DOCKER_CREDS = credentials('Docker-Creds')
     }
     stages {
         
         stage("Maven Clean") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' clean -DskipTests=true"
+                    sh "mvn -f'Spring/pom.xml' clean -DskipTests=true -Drevision=${VERSION}"
                 }
             }
         }
         stage("Maven Compile") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' compile -DskipTests=true"
+                    sh "mvn -f'Spring/pom.xml' compile -DskipTests=true -Drevision=${VERSION}"
                 }
             }
         }
         stage("Maven test") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' test"
+                    sh "mvn -f'Spring/pom.xml' test -Drevision=${VERSION}"
                 }
             }
         }
         stage("Maven Sonarqube") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=Admin"
+                    sh "mvn -f'Spring/pom.xml' sonar:sonar -Dsonar.login=admin -Dsonar.password=Admin -Drevision=${VERSION}"
                 }
             }
         }
         stage("Maven Build") {
             steps {
                 script {
-                    sh "mvn -f'Spring/pom.xml' package -DskipTests=false"
+                    sh "mvn -f'Spring/pom.xml' package -DskipTests=true -Drevision=${VERSION}"
                 }
                 echo ":$BUILD_NUMBER"
             }
@@ -54,13 +57,13 @@ pipeline {
                     artifactPath = filesByGlob[0].path;
                     artifactExists = fileExists artifactPath;
                     if(artifactExists) {
-                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${VERSION}";
                         nexusArtifactUploader(
                             nexusVersion: NEXUS_VERSION,
                             protocol: NEXUS_PROTOCOL,
                             nexusUrl: NEXUS_URL,
                             groupId: pom.groupId,
-                            version: pom.version,
+                            version: VERSION,
                             repository: NEXUS_REPOSITORY,
                             credentialsId: NEXUS_CREDENTIAL_ID,
                             artifacts: [
@@ -80,5 +83,41 @@ pipeline {
                 }
             }
         }
+        stage('Pull the file off Nexus') {
+            steps{
+        withCredentials([usernameColonPassword(credentialsId: 'Nexus-Creds', variable: 'NEXUS_CREDENTIALS')]) {
+            sh script: 'curl -u ${NEXUS_CREDENTIALS} -o /var/lib/jenkins/workspace/TP-Achat-Pipeline-Git/Spring/target/tpachat.jar "$NEXUS_URL/repository/$NEXUS_REPOSITORY/com/esprit/examen/tpAchatProject/$VERSION/tpAchatProject-$VERSION.jar"'
+        }
+                    }
+        }
+        stage('Building Docker Image') {
+                    steps {
+                        dir('Spring'){
+                            sh 'docker build -t $DOCKER_CREDS_USR/tpachat .'
+                                }
+                            }
+                        }
+         stage('Login to DockerHub') {
+                    steps{
+                        dir('Spring'){
+                            echo DOCKER_CREDS_USR
+                                sh('docker login -u $DOCKER_CREDS_USR -p $DOCKER_CREDS_PSW')
+                        }
+                    }
+        }
+        stage('Push to DockerHub') {
+                    steps{
+                        dir('Spring'){
+                            sh 'docker push $DOCKER_CREDS_USR/tpachat'
+                             }
+                        }
+        }
+        stage('Docker Compose'){
+                    steps{
+                       
+                            sh 'docker-compose up -d'
+                     
+                       }
+                    }
     }
 }
