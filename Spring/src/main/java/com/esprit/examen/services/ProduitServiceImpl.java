@@ -1,6 +1,8 @@
 package com.esprit.examen.services;
 
 import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.modelmapper.ModelMapper;
@@ -64,10 +66,12 @@ public class ProduitServiceImpl implements IProduitService {
 
 	@Override
 	public void assignProduitToStock(Long idProduit, Long idStock) {
-		Produit produit = produitRepository.findById(idProduit).orElse(new Produit());
-		Stock stock = stockRepository.findById(idStock).orElse(null);
-		produit.setStock(stock);
-		produitRepository.save(produit);
+		Optional<Produit>  produit = produitRepository.findById(idProduit);
+		Optional<Stock> stock = stockRepository.findById(idStock);
+		if (produit.isPresent() && stock.isPresent()) {
+			produit.get().setStock(stock.get( ));
+			produitRepository.save(produit.get());
+		}
 
 	}
 
