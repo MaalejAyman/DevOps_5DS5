@@ -6,7 +6,6 @@ import java.util.List;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.esprit.examen.entities.Produit;
 import com.esprit.examen.entities.Reglement;
 import com.esprit.examen.entities.dto.ReglementRequestModel;
 import com.esprit.examen.repositories.FactureRepository;
