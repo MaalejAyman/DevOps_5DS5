@@ -21,6 +21,8 @@ import com.esprit.examen.repositories.FactureRepository;
 import com.esprit.examen.repositories.FournisseurRepository;
 import com.esprit.examen.repositories.OperateurRepository;
 import com.esprit.examen.repositories.ProduitRepository;
+import com.esprit.examen.repositories.ReglementRepository;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Service
@@ -40,6 +42,9 @@ public class FactureServiceImpl implements IFactureService {
 	ProduitRepository produitRepository;
     @Autowired
     ReglementServiceImpl reglementService;
+    @Autowired
+	ReglementRepository reglementRepository;
+    
     ModelMapper modelMapper = new ModelMapper();
 	
 	@Override
@@ -127,13 +132,15 @@ public class FactureServiceImpl implements IFactureService {
 		
 		
 	}
-
+	
 	@Override
 	public float pourcentageRecouvrement(Date startDate, Date endDate) {
 		float totalFacturesEntreDeuxDates = factureRepository.getTotalFacturesEntreDeuxDates(startDate,endDate);
-		float totalRecouvrementEntreDeuxDates =reglementService.getChiffreAffaireEntreDeuxDate(startDate,endDate);
+		float totalRecouvrementEntreDeuxDates =reglementRepository.getChiffreAffaireEntreDeuxDate(startDate,endDate);
 		return (totalRecouvrementEntreDeuxDates/totalFacturesEntreDeuxDates)*100;
 	}
+
+
 	
 
 }

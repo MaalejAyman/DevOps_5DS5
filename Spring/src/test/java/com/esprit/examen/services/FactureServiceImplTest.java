@@ -92,8 +92,8 @@ public class FactureServiceImplTest {
 
         this.o1 = new Operateur();
         this.o1.setIdOperateur(0L);
-        this.o1.setNom("Hbaieb");
-        this.o1.setPrenom("Rami");
+        this.o1.setNom("test");
+        this.o1.setPrenom("test");
         this.o1.setPassword("aaaa");
 
         this.fournisseur = new Fournisseur();
@@ -160,23 +160,14 @@ public class FactureServiceImplTest {
 	@Test
 	@DisplayName("Test Cancel Facutre")
 	public void testCancelFacture() {
-		/*init();
-		when(factureRepository.findById(anyLong())).thenReturn(Optional.of(f1));
-		
-		when(factureRepository.save(any(Facture.class))).thenReturn(f1);
-		f1.setArchivee(true);
-		FactureRequestModel frm=modelMapper.map(f1, FactureRequestModel.class);
-		factureService.cancelFacture(frm.getIdFacture());
-		Facture exisitingFacture =factureRepository.findById(frm.getIdFacture()).orElse(null);
-		assertNotNull(exisitingFacture);
-		assertEquals(true, exisitingFacture.getArchivee());*/
+
 		
 		init();
         Long FactureId = 0L;
         when(factureRepository.findById(FactureId)).thenReturn(Optional.of(f1));
-        assertThat(f1.getArchivee()).isEqualTo(false);
+        assertThat(f1.getArchivee()).isFalse();
         factureService.cancelFacture(FactureId);
-        assertThat(f1.getArchivee()).isEqualTo(true);
+        assertThat(f1.getArchivee()).isTrue();
 	}
 	
 
@@ -190,7 +181,7 @@ public class FactureServiceImplTest {
         list.add(f2);
         fournisseur.setFactures(list);
         factureService.getFacturesByFournisseur(fournisseur.getIdFournisseur());
-        assertThat(fournisseur.getFactures().size()).isEqualTo(2);
+        assertThat(fournisseur.getFactures()).hasSize(2);
 	}
 	
 	 @Test
@@ -198,15 +189,15 @@ public class FactureServiceImplTest {
 	    public void testAssignOperateurToFacture() {
 	        init();
 	        when(factureRepository.findById(anyLong())).thenReturn(Optional.of(f1));
-	        assertThat(f1.getIdFacture()).isEqualTo(0L);
+	        assertThat(f1.getIdFacture()).isZero();
 	        when(operateurRepository.findById(anyLong())).thenReturn(Optional.of(o1));
 	        Set<Facture> list = new HashSet<>();
 	        o1.setFactures(list);
 	        factureService.assignOperateurToFacture(o1.getIdOperateur(), f1.getIdFacture());
-	        assertThat(o1.getFactures().size()).isEqualTo(1);
+	        assertThat(o1.getFactures()).hasSize(1);
 	    }
 	 
-	    @Test
+	  @Test
 	    @DisplayName("Test Pourcentage Recouverment")
 	    public void testPourcentageRecouvrement() {
 	        init();
@@ -214,5 +205,4 @@ public class FactureServiceImplTest {
 	        when(reglementRepository.getChiffreAffaireEntreDeuxDate(new Date(2022, 11, 11),new Date(2022, 11, 24))).thenReturn(2.0f);
 	        assertThat(factureService.pourcentageRecouvrement(new Date(2022, 11, 11),new Date(2022, 11, 24))).isEqualTo(25.0f);
 	    }
-	
 }
