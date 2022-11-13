@@ -1,4 +1,4 @@
-FROM i386/node:12-alpine as build-step
+FROM node:14.15.5-alpine3.13 as build-step
 RUN mkdir -p /app
 WORKDIR /app
 COPY package.json /app
