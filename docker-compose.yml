@@ -33,12 +33,7 @@ services:
   front:
     depends_on:
       - app
-    build: ./Angular/crud-tuto-front/
+    build: 
+      context: ./Angular/crud-tuto-front/
     ports:
-      - 4201:4201
-    working_dir: /home/node/app
-    volumes:
-      - ./:/home/node/app
-      - node_modules:/home/node/app/node_modules
-volumes:
-  node_modules:
+      - "4201:4201"
