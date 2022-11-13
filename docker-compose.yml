@@ -17,7 +17,7 @@ services:
       - mysqldb
     build: .
     restart: on-failure
-    env_file: Spring/.env
+    env_file: ./Spring/.env
     ports:
       - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
     environment:
