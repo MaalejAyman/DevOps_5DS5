@@ -1,3 +1,3 @@
 FROM nginx:alpine
-COPY /dist/app-to-run-inside-docker /usr/share/nginx/html
+COPY /dist/crud-tuto-front /usr/share/nginx/html
 EXPOSE 80
