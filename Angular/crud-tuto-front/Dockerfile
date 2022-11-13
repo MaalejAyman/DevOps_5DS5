@@ -1,9 +1,9 @@
-FROM node:14.15.5-alpine3.13
-RUN mkdir -p /app
+#stage 1
+FROM node:latest as node
 WORKDIR /app
-COPY package.json /app
+COPY . .
 RUN npm install
-COPY . /app
 RUN npm run build --prod
-FROM nginx:1.17.1-alpine
-COPY /app/docs /usr/share/nginx/html
+#stage 2
+FROM nginx:alpine
+COPY --from=node /app/dist/demo-app /usr/share/nginx/html
