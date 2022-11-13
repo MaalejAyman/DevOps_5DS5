@@ -4,18 +4,16 @@ services:
   mysqldb:
     image: mysql:5.7
     restart: unless-stopped
-    env_file: .Spring/.env
+    env_file: ./.env
     environment:
       - MYSQL_ROOT_PASSWORD=$MYSQLDB_ROOT_PASSWORD
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
-    volumes:
-      - db:/var/lib/mysql
   app:
     depends_on:
       - mysqldb
-    build: .
+    build: ./Spring
     restart: on-failure
     env_file: ./Spring/.env
     ports:
@@ -32,19 +30,10 @@ services:
       - .m2:/root/.m2
     stdin_open: true
     tty: true
-
-volumes:
-  db:
   front:
     depends_on:
       - app
-    build: ./Angular/crud-tuto-front/
-    command: sh -c "npm start"
+    build: 
+      context: ./Angular/crud-tuto-front/
     ports:
-      - 4200:4200
-    working_dir: /home/node/app
-    volumes:
-      - ./:/home/node/app
-      - node_modules:/home/node/app/node_modules
-volumes:
-  node_modules:
+      - "4201:4201"
