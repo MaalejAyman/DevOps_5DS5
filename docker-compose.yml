@@ -10,11 +10,10 @@ services:
       - MYSQL_DATABASE=$MYSQLDB_DATABASE
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
-
   app:
     depends_on:
       - mysqldb
-    build: .
+    build: ./Spring
     restart: on-failure
     env_file: ./Spring/.env
     ports:
