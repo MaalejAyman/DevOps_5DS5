@@ -8,3 +8,4 @@ FROM node:16.10-alpine3.11
     
     COPY . .
     RUN ng build --prod
+ENTRYPOINT ["ng","serve"]
