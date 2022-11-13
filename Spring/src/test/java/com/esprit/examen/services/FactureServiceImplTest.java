@@ -3,6 +3,7 @@ package com.esprit.examen.services;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -27,6 +28,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.esprit.examen.entities.CategorieFournisseur;
+import com.esprit.examen.entities.DetailFacture;
 import com.esprit.examen.entities.Facture;
 import com.esprit.examen.entities.Fournisseur;
 import com.esprit.examen.entities.Operateur;
@@ -35,9 +37,11 @@ import com.esprit.examen.entities.Reglement;
 import com.esprit.examen.entities.dto.FactureRequestModel;
 import com.esprit.examen.entities.dto.ProduitRequestModel;
 import com.esprit.examen.entities.dto.ReglementRequestModel;
+import com.esprit.examen.repositories.DetailFactureRepository;
 import com.esprit.examen.repositories.FactureRepository;
 import com.esprit.examen.repositories.FournisseurRepository;
 import com.esprit.examen.repositories.OperateurRepository;
+import com.esprit.examen.repositories.ProduitRepository;
 import com.esprit.examen.repositories.ReglementRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -66,16 +70,28 @@ public class FactureServiceImplTest {
     private ReglementRepository reglementRepository;
     @InjectMocks
     private ReglementServiceImpl reglementService;
+    @Mock
+	private DetailFactureRepository  detailFactureRepository;
+	@Mock
+	private ProduitRepository  produitRepository;
 	
 	private Facture f1 ;
 	private Facture f2 ;
     private Operateur o1;
+    private DetailFacture d1 ;
+	private DetailFacture d2 ;
+	private Produit p1 ;
 	private Fournisseur fournisseur;
 	private Reglement reg;
 	ModelMapper modelMapper;
 	
 	@BeforeEach
 	public void init() {
+		this.p1 = new Produit();
+		this.p1.setIdProduit(0L);
+		this.p1.setPrix(100);
+		this.p1.setLibelleProduit("Avatar");
+		
 		this.f1 = new Facture();
         this.f1.setIdFacture(0L);
         this.f1.setMontantRemise(20);
@@ -89,6 +105,19 @@ public class FactureServiceImplTest {
         this.f2.setMontantFacture(200);
         this.f2.setArchivee(false);
         this.f2.setDateCreationFacture(new Date(2022, 11, 12));
+        
+        this.d1 = new DetailFacture();
+		this.d1.setIdDetailFacture(1L);
+		this.d1.setQteCommandee(10);
+		this.d1.setPourcentageRemise(10);
+		this.d1.setMontantRemise(10);
+		this.d1.setProduit(p1);
+		this.d1.setPrixTotalDetail(200);
+		
+		this.d2 = new DetailFacture();
+		this.d2.setIdDetailFacture(2L);
+		this.d2.setMontantRemise(10);
+		this.d2.setPrixTotalDetail(200);
 
         this.o1 = new Operateur();
         this.o1.setIdOperateur(0L);
@@ -205,4 +234,23 @@ public class FactureServiceImplTest {
 	        when(reglementRepository.getChiffreAffaireEntreDeuxDate(new Date(2022, 11, 11),new Date(2022, 11, 24))).thenReturn(2.0f);
 	        assertThat(factureService.pourcentageRecouvrement(new Date(2022, 11, 11),new Date(2022, 11, 24))).isEqualTo(25.0f);
 	    }
+	  
+	  @Test
+		public void addDetailsFacture() {
+		  init();
+			Set<DetailFacture> detailsFacture= new HashSet<>();;
+			detailsFacture.add(d1);
+			
+			when(produitRepository.findById(d1.getProduit().getIdProduit())).thenReturn(Optional.of(d1.getProduit()));
+			when(factureService.addDetailsFacture(f1, detailsFacture)).thenReturn(f1);
+			System.out.println("test " + f1.getMontantRemise());
+			System.out.println("test " + f1.getMontantFacture());
+			assertEquals(100L, f1.getMontantRemise());
+			assertEquals(900f, f1.getMontantFacture());
+			
+			
+			
+			
+			
+		}
 }
