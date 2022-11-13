@@ -1,4 +1,4 @@
-FROM node:12.22-alpine3.10
+FROM node:16.10-alpine3.11
     WORKDIR /usr/src/app
     COPY package.json package-lock.json ./
     RUN npm i -g @angular/cli
