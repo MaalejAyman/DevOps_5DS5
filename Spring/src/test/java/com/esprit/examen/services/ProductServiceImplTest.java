@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -23,13 +22,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import com.esprit.examen.entities.Produit;
+import com.esprit.examen.entities.Stock;
 import com.esprit.examen.entities.dto.ProduitRequestModel;
 import com.esprit.examen.repositories.ProduitRepository;
+import com.esprit.examen.repositories.StockRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -39,12 +38,18 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductServiceImplTest {
 	@Mock
 	private ProduitRepository produitRepository;
+	@Mock
+	private StockRepository stockrepository;
 
 	@InjectMocks
 	private ProduitServiceImpl produitService;
+	@InjectMocks
+	private StockServiceImpl stockServiceImpl;
 
 	private Produit p1;
 	private Produit p2;
+	private Produit p3;
+	private Stock s1;
 	ModelMapper modelMapper;
 
 	@BeforeEach
@@ -57,6 +62,10 @@ public class ProductServiceImplTest {
 		this.p2.setIdProduit(1L);
 		this.p2.setPrix(100);
 		this.p2.setLibelleProduit("Avatar");
+		this.s1 = new Stock();
+		this.s1.setIdStock(0L);
+		this.s1.setQte(100);
+		this.s1.setLibelleStock("Stock 1");
 		this.modelMapper = new ModelMapper();
 	}
 
@@ -69,16 +78,7 @@ public class ProductServiceImplTest {
 		assertNotNull(pnew);
 		assertThat(pnew.getPrix()).isEqualTo(100);
 	}
-	@Test
-	public void save() {
-		init();
-		when(produitRepository.save(any(Produit.class))).thenReturn(p1);
-		ProduitRequestModel prm=modelMapper.map(p1, ProduitRequestModel.class);
-		Produit newProduit = produitService.addProduit(prm);
-		assertNotNull(newProduit);
-		assertThat(newProduit.getPrix()).isEqualTo(100);
-	}
-	
+
 	@Test
 	public void getProduits() {
 		init();
@@ -118,9 +118,21 @@ public class ProductServiceImplTest {
 	}
 	
 	@Test
+	public void assignProduitToStockTruecondion() { 
+		init();
+		assertThat(p3).isNull();
+		when(produitRepository.findById(anyLong())).thenReturn(null);
+		when(stockrepository.findById(anyLong())).thenReturn(Optional.of(s1));
+		when(produitRepository.findById(anyLong())).thenReturn(Optional.of(p1));
+		assertNotNull(p1);
+		produitService.assignProduitToStock(p1.getIdProduit(), s1.getIdStock());
+		assertThat(p1.getStock().getIdStock()).isEqualTo(s1.getIdStock());
+	}
+	
+	@Test
 	public void deleteProduit() {
 		init();
-		Long ProduitId = 1L;
+		Long ProduitId = 0L;
 		when(produitRepository.findById(anyLong())).thenReturn(Optional.of(p1));
 		doNothing().when(produitRepository).deleteById(anyLong());
 		produitService.deleteProduit(ProduitId);
