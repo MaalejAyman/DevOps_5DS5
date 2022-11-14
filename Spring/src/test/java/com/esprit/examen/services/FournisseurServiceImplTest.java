@@ -79,16 +79,11 @@ public class FournisseurServiceImplTest {
 		this.modelMapper = new ModelMapper();
 	}
 	
-	List<Fournisseur> s= new ArrayList<Fournisseur>(){{
-        add(f1);
-        add(f2) ;
-        }
-    };
     
     SecteurActivite sa = (SecteurActivite.builder().idSecteurActivite(5L).build());
 	
 	@Test
-	public void testAddFournisseur() {
+	public void AddFournisseurTest() {
 		init();
 		when(fournisseurRepository.save(any(Fournisseur.class))).thenReturn(f1);
 		modelMapper.getConfiguration().setAmbiguityIgnored(true);
@@ -96,20 +91,22 @@ public class FournisseurServiceImplTest {
 		Fournisseur fnew = fournisseurServiceImpl.addFournisseur(frm);
 		assertNotNull(fnew);
 		assertThat(fnew.getCode()).isEqualTo("code1");
+		log.info("Added fournisseur: "+ fnew.toString());
 	}
 	
 	@Test
-	public void save() {
+	public void saveTest() {
 		init();
 		when(fournisseurRepository.save(any(Fournisseur.class))).thenReturn(f2);
 		FournisseurRequestModel frm= modelMapper.map(f2, FournisseurRequestModel.class);
 		Fournisseur newFournisseur = fournisseurServiceImpl.addFournisseur(frm);
 		assertNotNull(newFournisseur);
 		assertThat(newFournisseur.getCode()).isEqualTo("code2");
+		log.info("Added fournisseur: "+ newFournisseur.toString());
 	}
 	
 	@Test
-	public void getFournisseurs() {
+	public void getFournisseursTest() {
 		init();
 		List<Fournisseur> list = new ArrayList<>();
 		list.add(f1);
@@ -118,10 +115,11 @@ public class FournisseurServiceImplTest {
 		List<Fournisseur> Fournisseurs = fournisseurServiceImpl.retrieveAllFournisseurs();
 		assertEquals(2, Fournisseurs.size());
 		assertNotNull(Fournisseurs);
+		log.info("retrieve all fournissuers: "+ Fournisseurs.toString());
 	}
 	
 	@Test
-	public void getFournisseurById() {
+	public void getFournisseurByIdTest() {
 		init();
 		when(fournisseurRepository.save(any(Fournisseur.class))).thenReturn(f1);
 		FournisseurRequestModel frm=modelMapper.map(f1, FournisseurRequestModel.class);
@@ -130,12 +128,12 @@ public class FournisseurServiceImplTest {
 		Fournisseur existingFournisseur = fournisseurServiceImpl.retrieveFournisseur(fnew.getIdFournisseur());
 		assertNotNull(existingFournisseur);
 		assertThat(existingFournisseur.getIdFournisseur()).isNotNull();
+		log.info("get existing fournisseur :"+ existingFournisseur.toString());
 	}
 	
 	@Test
-	public void updateFournisseur() {
+	public void updateFournisseurTest() {
 		init();
-		
 		when(fournisseurRepository.findById(anyLong())).thenReturn(Optional.of(f1));
 		FournisseurRequestModel frm=modelMapper.map(f1, FournisseurRequestModel.class);
 		Fournisseur f = fournisseurServiceImpl.addFournisseur(frm);
@@ -150,13 +148,14 @@ public class FournisseurServiceImplTest {
 	}
 	
 	@Test
-	public void deleteFournisseur() {
+	public void deleteFournisseurTest() {
 		init();
 		Long FournisseurId = 1L;
 		when(fournisseurRepository.findById(anyLong())).thenReturn(Optional.of(f1));
 		doNothing().when(fournisseurRepository).deleteById(anyLong());
 		fournisseurServiceImpl.deleteFournisseur(FournisseurId);
 		verify(fournisseurRepository, times(1)).deleteById(anyLong());
+		log.info("deleted fournisseur :"+f1.toString());
 		
 	}
 	
