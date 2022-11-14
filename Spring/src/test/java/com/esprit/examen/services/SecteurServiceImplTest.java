@@ -63,15 +63,7 @@ public class SecteurServiceImplTest {
         assertNotNull(snew);
         assertThat(snew.getLibelleSecteurActivite()).isEqualTo("ds");
     }
-    @Test
-    public void save() {
-        init();
-        when(secteurRepository.save(any(SecteurActivite.class))).thenReturn(s1);
-        SecteurActiviteRequestModel srm=modelMapper.map(s1, SecteurActiviteRequestModel.class);
-        SecteurActivite newsecteur = secteurService.addSecteurActivite(srm);
-        assertNotNull(newsecteur);
-        assertThat(newsecteur.getLibelleSecteurActivite()).isEqualTo("ds");
-    }
+
     @Test
     public void getSecteurs() {
         init();
