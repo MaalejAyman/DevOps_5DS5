@@ -24,4 +24,5 @@ public class ReglementRequestModel {
 	private Date dateReglement;
 	private Facture facture;
 
+
 }

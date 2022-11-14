@@ -1,7 +1,6 @@
 package com.esprit.examen.controllers;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,11 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.esprit.examen.entities.CategorieFournisseur;
-import com.esprit.examen.entities.DetailFournisseur;
-import com.esprit.examen.entities.Facture;
 import com.esprit.examen.entities.Fournisseur;
-import com.esprit.examen.entities.SecteurActivite;
+
 import com.esprit.examen.entities.dto.FournisseurRequestModel;
 import com.esprit.examen.services.IFournisseurService;
 

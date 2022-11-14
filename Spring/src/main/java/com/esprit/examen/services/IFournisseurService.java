@@ -8,11 +8,11 @@ public interface IFournisseurService {
 
 	List<Fournisseur> retrieveAllFournisseurs();
 
-	Fournisseur addFournisseur(FournisseurRequestModel FRM);
+	Fournisseur addFournisseur(FournisseurRequestModel fournisseur);
 
 	void deleteFournisseur(Long id);
 
-	Fournisseur updateFournisseur(FournisseurRequestModel FRM);
+	Fournisseur updateFournisseur(FournisseurRequestModel fournisseur);
 
 	Fournisseur retrieveFournisseur(Long id);
 	

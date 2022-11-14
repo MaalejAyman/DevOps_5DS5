@@ -138,7 +138,6 @@ public class FournisseurServiceImplTest {
 		FournisseurRequestModel frm=modelMapper.map(f1, FournisseurRequestModel.class);
 		Fournisseur f = fournisseurServiceImpl.addFournisseur(frm);
 		f.setLibelle("fournisseurF1");
-		f.getDetailFournisseur().setIdDetailFournisseur(1L);
 		FournisseurRequestModel fnew =modelMapper.map(f, FournisseurRequestModel.class);
 		Fournisseur exisitingFournisseur = fournisseurServiceImpl.updateFournisseur(fnew);
 		System.out.println("test");
