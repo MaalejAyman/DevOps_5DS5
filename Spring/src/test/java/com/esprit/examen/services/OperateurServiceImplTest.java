@@ -62,15 +62,7 @@ public class OperateurServiceImplTest {
         assertNotNull(onew);
         assertThat(onew.getNom()).isEqualTo("hassen");
     }
-    @Test
-    public void save() {
-        init();
-        when(operateurRepository.save(any(Operateur.class))).thenReturn(o1);
-        OperateurRequestModel orm=modelMapper.map(o1, OperateurRequestModel.class);
-        Operateur newOperateur = operateurService.addOperateur(orm);
-        assertNotNull(newOperateur);
-        assertThat(newOperateur.getNom()).isEqualTo("hassen");
-    }
+
     @Test
     public void getOperateurs() {
         init();
