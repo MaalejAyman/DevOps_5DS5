@@ -48,12 +48,16 @@ public class StockServiceImplTest {
 	public void init() {
 		this.s1 = new Stock();
 		this.s1.setIdStock(0L);
-		this.s1.setQte(100);
-		this.s1.setLibelleStock("Stock 1");
+		this.s1.setLibelleStock("Test 1");
+		this.s1.setQte(10);
+		this.s1.setQteMin(11);
+
 		this.s2 = new Stock();
 		this.s2.setIdStock(1L);
-		this.s2.setQte(200);
-		this.s2.setLibelleStock("Stock 2");
+		this.s2.setLibelleStock("Test 2");
+		this.s2.setQte(22);
+		this.s2.setQteMin(22);
+
 		this.modelMapper = new ModelMapper();
 	}
 
@@ -64,7 +68,7 @@ public class StockServiceImplTest {
 		StockRequestModel srm=modelMapper.map(s1, StockRequestModel.class);
 		Stock snew=stockService.addStock(srm);
 		assertNotNull(snew);
-		assertThat(snew.getQte()).isEqualTo(100);
+		assertThat(snew.getQte()).isEqualTo(10);
 	}
 	@Test
 	public void getStocks() {
@@ -112,5 +116,13 @@ public class StockServiceImplTest {
 		doNothing().when(stockRepository).deleteById(anyLong());
 		stockService.deleteStock(StockId);
 		verify(stockRepository, times(1)).deleteById(anyLong());
+	}
+	@Test
+	public void testRetrieveStatusStock() {
+		init();
+		List<Stock> stocksEnRouge = new ArrayList<>();
+		stocksEnRouge.add(s1);
+		when(stockRepository.retrieveStatusStock()).thenReturn(stocksEnRouge);
+		assertThat(stockService.retrieveStatusStock()).contains("le stock Test 1 a une quantité de 10 inférieur à la quantité minimale a ne pas dépasser de 11");
 	}
 }

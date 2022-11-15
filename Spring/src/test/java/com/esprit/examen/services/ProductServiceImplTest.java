@@ -119,19 +119,21 @@ public class ProductServiceImplTest {
 	}
 	
 	@Test
-	public void assignProduitToStockTruecondion() { 
+	public void assignProduitToStockTruecondition() { 
 		init();
 		assertThat(p3).isNull();
 		when(produitRepository.findById(anyLong())).thenReturn(null);
-		Optional<Produit>  produit = java.util.Optional.empty();
-		Optional<Stock>  stock = java.util.Optional.empty();
-		assertTrue(produit.isPresent());
-		assertTrue(stock.isPresent());
 		when(stockrepository.findById(anyLong())).thenReturn(Optional.of(s1));
 		when(produitRepository.findById(anyLong())).thenReturn(Optional.of(p1));
 		assertNotNull(p1);
 		produitService.assignProduitToStock(p1.getIdProduit(), s1.getIdStock());
 		assertThat(p1.getStock().getIdStock()).isEqualTo(s1.getIdStock());
+	}
+	@Test
+	public void assignProduitToStockFalsecondition() { 
+		init();
+		assertThat(p3).isNull();
+		
 	}
 	
 	@Test
