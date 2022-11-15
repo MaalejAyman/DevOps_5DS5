@@ -71,16 +71,19 @@ public class ProductServiceImplTest {
 
 	@Test
 	public void testAddProduit() {
+		log.info("entred function : testAddProduit");
 		init();
 		when(produitRepository.save(any(Produit.class))).thenReturn(p1);
 		ProduitRequestModel prm=modelMapper.map(p1, ProduitRequestModel.class);
 		Produit pnew=produitService.addProduit(prm);
 		assertNotNull(pnew);
 		assertThat(pnew.getPrix()).isEqualTo(100);
+		log.info("exit function : testAddProduit");
 	}
 
 	@Test
 	public void getProduits() {
+		log.info("entred function : getProduits");
 		init();
 		List<Produit> list = new ArrayList<>();
 		list.add(p1);
@@ -89,10 +92,12 @@ public class ProductServiceImplTest {
 		List<Produit> Produits = produitService.retrieveAllProduits();
 		assertEquals(2, Produits.size());
 		assertNotNull(Produits);
+		log.info("exit function : getProduits");
 	}
 	
 	@Test
 	public void getProduitById() {
+		log.info("entred function : getProduitById");
 		init();
 		when(produitRepository.save(any(Produit.class))).thenReturn(p1);
 		ProduitRequestModel prm=modelMapper.map(p1, ProduitRequestModel.class);
@@ -101,10 +106,12 @@ public class ProductServiceImplTest {
 		Produit existingProduit = produitService.retrieveProduit(pnew.getIdProduit());
 		assertNotNull(existingProduit);
 		assertThat(existingProduit.getIdProduit()).isNotNull();
+		log.info("exit function : getProduitById");
 	}
 	
 	@Test
 	public void updateProduit() {
+		log.info("entred function : updateProduit");
 		init();
 		when(produitRepository.findById(anyLong())).thenReturn(Optional.of(p1));
 		
@@ -115,10 +122,12 @@ public class ProductServiceImplTest {
 		
 		assertNotNull(exisitingProduit);
 		assertEquals("Fantacy", exisitingProduit.getLibelleProduit());
+		log.info("exit function : updateProduit");
 	}
 	
 	@Test
-	public void assignProduitToStockTruecondion() { 
+	public void assignProduitToStockTruecondition() { 
+		log.info("entred function : assignProduitToStockTruecondition");
 		init();
 		assertThat(p3).isNull();
 		when(produitRepository.findById(anyLong())).thenReturn(null);
@@ -127,16 +136,26 @@ public class ProductServiceImplTest {
 		assertNotNull(p1);
 		produitService.assignProduitToStock(p1.getIdProduit(), s1.getIdStock());
 		assertThat(p1.getStock().getIdStock()).isEqualTo(s1.getIdStock());
+		log.info("exit function : assignProduitToStockTruecondition");
+	}
+	@Test
+	public void assignProduitToStockFalsecondition() { 
+		log.info("entred function : assignProduitToStockFalsecondition");
+		init();
+		assertThat(p3).isNull();
+		log.info("exit function : assignProduitToStockFalsecondition");
+		
 	}
 	
 	@Test
 	public void deleteProduit() {
+		log.info("entred function : deleteProduit");
 		init();
 		Long ProduitId = 0L;
 		when(produitRepository.findById(anyLong())).thenReturn(Optional.of(p1));
 		doNothing().when(produitRepository).deleteById(anyLong());
 		produitService.deleteProduit(ProduitId);
 		verify(produitRepository, times(1)).deleteById(anyLong());
-		
+		log.info("exit function : deleteProduit");
 	}
 }

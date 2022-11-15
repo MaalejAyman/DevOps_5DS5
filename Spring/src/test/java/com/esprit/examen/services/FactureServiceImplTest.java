@@ -21,7 +21,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -30,11 +29,8 @@ import com.esprit.examen.entities.CategorieFournisseur;
 import com.esprit.examen.entities.Facture;
 import com.esprit.examen.entities.Fournisseur;
 import com.esprit.examen.entities.Operateur;
-import com.esprit.examen.entities.Produit;
 import com.esprit.examen.entities.Reglement;
 import com.esprit.examen.entities.dto.FactureRequestModel;
-import com.esprit.examen.entities.dto.ProduitRequestModel;
-import com.esprit.examen.entities.dto.ReglementRequestModel;
 import com.esprit.examen.repositories.FactureRepository;
 import com.esprit.examen.repositories.FournisseurRepository;
 import com.esprit.examen.repositories.OperateurRepository;
@@ -112,17 +108,20 @@ public class FactureServiceImplTest {
 	
 	@Test
 	public void testAddFacture() {
+		log.info("entred function : testAddFacture");
 		init();
 		when(factureRepository.save(any(Facture.class))).thenReturn(f1);
 		FactureRequestModel frm=modelMapper.map(f1, FactureRequestModel.class);
 		Facture fnew=factureService.addFacture(frm);
 		assertNotNull(fnew);
 		assertThat(fnew.getMontantFacture()).isEqualTo(100);
+		log.info("exit function : testAddFacture");
 	}
 	
 	
 	@Test
 	public void getFactures() {
+		log.info("entred function : getFactures");
 		init();
 		List<Facture> list = new ArrayList<>();
 		list.add(f1);
@@ -131,10 +130,12 @@ public class FactureServiceImplTest {
 		List<Facture> factures = factureService.retrieveAllFactures();
 		assertEquals(2, factures.size());
 		assertNotNull(factures);
+		log.info("exit function : getFactures");
 	}
     @Test
     @DisplayName("Test Retrieve All Facture")
     public void testRetrieveAllFactures() {
+    	log.info("entred function : testRetrieveAllFactures");
         init();
         List<Facture> list = new ArrayList<>();
         list.add(f1);
@@ -143,10 +144,12 @@ public class FactureServiceImplTest {
         List<Facture> factures = factureService.retrieveAllFactures();
         assertEquals(2, factures.size());
         assertNotNull(factures);
+        log.info("exit function : testRetrieveAllFactures");
     }
 	@Test
 	@DisplayName("Test Get Facture by id")
 	public void TestGetFacturetById() {
+		log.info("entred function : TestGetFacturetById");
 		init();
 		when(factureRepository.save(any(Facture.class))).thenReturn(f1);
 		FactureRequestModel frm=modelMapper.map(f1, FactureRequestModel.class);
@@ -155,19 +158,20 @@ public class FactureServiceImplTest {
 		Facture existingFacture = factureService.retrieveFacture(fnew.getIdFacture());
 		assertNotNull(existingFacture);
 		assertThat(existingFacture.getIdFacture()).isNotNull();
+		log.info("exit function : TestGetFacturetById");
 	}
 
 	@Test
 	@DisplayName("Test Cancel Facutre")
 	public void testCancelFacture() {
-
-		
+		log.info("entred function : testCancelFacture");
 		init();
         Long FactureId = 0L;
         when(factureRepository.findById(FactureId)).thenReturn(Optional.of(f1));
         assertThat(f1.getArchivee()).isFalse();
         factureService.cancelFacture(FactureId);
         assertThat(f1.getArchivee()).isTrue();
+        log.info("exit function : testCancelFacture");
 	}
 	
 
@@ -175,6 +179,7 @@ public class FactureServiceImplTest {
 	@Test
 	@DisplayName("Test Get Facture By Fournisseur")
 	public void testGetFacturesByFournisseur() {
+		log.info("entred function : getStockById");
 	    init();
         Set<Facture> list = new HashSet<>();
         list.add(f1);
@@ -182,11 +187,13 @@ public class FactureServiceImplTest {
         fournisseur.setFactures(list);
         factureService.getFacturesByFournisseur(fournisseur.getIdFournisseur());
         assertThat(fournisseur.getFactures()).hasSize(2);
+        log.info("exit function : getStockById");
 	}
 	
 	 @Test
 	    @DisplayName("Test Assign Operateur To Facture")
 	    public void testAssignOperateurToFacture() {
+		 log.info("entred function : getStockById");
 	        init();
 	        when(factureRepository.findById(anyLong())).thenReturn(Optional.of(f1));
 	        assertThat(f1.getIdFacture()).isZero();
@@ -195,14 +202,17 @@ public class FactureServiceImplTest {
 	        o1.setFactures(list);
 	        factureService.assignOperateurToFacture(o1.getIdOperateur(), f1.getIdFacture());
 	        assertThat(o1.getFactures()).hasSize(1);
+	        log.info("exit function : getStockById");
 	    }
 	 
 	  @Test
 	    @DisplayName("Test Pourcentage Recouverment")
 	    public void testPourcentageRecouvrement() {
+		  log.info("entred function : getStockById");
 	        init();
 	        when(factureRepository.getTotalFacturesEntreDeuxDates(new Date(2022, 11, 11),new Date(2022, 11, 24))).thenReturn(8.0f);
 	        when(reglementRepository.getChiffreAffaireEntreDeuxDate(new Date(2022, 11, 11),new Date(2022, 11, 24))).thenReturn(2.0f);
 	        assertThat(factureService.pourcentageRecouvrement(new Date(2022, 11, 11),new Date(2022, 11, 24))).isEqualTo(25.0f);
+	        log.info("exit function : getStockById");
 	    }
 }

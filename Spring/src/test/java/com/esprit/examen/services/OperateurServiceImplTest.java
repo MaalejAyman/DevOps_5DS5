@@ -5,15 +5,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.esprit.examen.entities.Operateur;
-import com.esprit.examen.entities.dto.OperateurRequestModel;
-import com.esprit.examen.repositories.OperateurRepository;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,6 +23,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import com.esprit.examen.entities.Operateur;
+import com.esprit.examen.entities.dto.OperateurRequestModel;
+import com.esprit.examen.repositories.OperateurRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -55,16 +59,19 @@ public class OperateurServiceImplTest {
     }
     @Test
     public void testAddOperateur() {
+    	log.info("entred function : testAddOperateur");
         init();
         when(operateurRepository.save(any(Operateur.class))).thenReturn(o1);
         OperateurRequestModel orm=modelMapper.map(o1, OperateurRequestModel.class);
         Operateur onew=operateurService.addOperateur(orm);
         assertNotNull(onew);
         assertThat(onew.getNom()).isEqualTo("hassen");
+        log.info("exit function : testAddOperateur");
     }
 
     @Test
     public void getOperateurs() {
+    	log.info("entred function : getOperateurs");
         init();
         List<Operateur> list = new ArrayList<>();
         list.add(o1);
@@ -73,9 +80,11 @@ public class OperateurServiceImplTest {
         List<Operateur> operateurs = operateurService.retrieveAllOperateurs();
         assertEquals(2, operateurs.size());
         assertNotNull(operateurs);
+        log.info("exit function : getOperateurs");
     }
     @Test
     public void getOperateurById() {
+    	log.info("entred function : getOperateurById");
         init();
         when(operateurRepository.save(any(Operateur.class))).thenReturn(o1);
         OperateurRequestModel orm=modelMapper.map(o1, OperateurRequestModel.class);
@@ -84,9 +93,11 @@ public class OperateurServiceImplTest {
         Operateur existingoperateur = operateurService.retrieveOperateur(onew.getIdOperateur());
         assertNotNull(existingoperateur);
         assertThat(existingoperateur.getIdOperateur()).isNotNull();
+        log.info("exit function : getOperateurById");
     }
     @Test
     public void updateOperateur() {
+    	log.info("entred function : updateOperateur");
         init();
         when(operateurRepository.findById(anyLong())).thenReturn(Optional.of(o1));
 
@@ -97,15 +108,18 @@ public class OperateurServiceImplTest {
 
         assertNotNull(exisitingOperateur);
         assertEquals("001", exisitingOperateur.getPassword());
+        log.info("exit function : updateOperateur");
     }
     @Test
     public void deleteOperateur() {
+    	log.info("entred function : deleteOperateur");
         init();
         Long ProduitId = 0L;
         when(operateurRepository.findById(anyLong())).thenReturn(Optional.of(o1));
         doNothing().when(operateurRepository).deleteById(anyLong());
         operateurService.deleteOperateur(ProduitId);
         verify(operateurRepository, times(1)).deleteById(anyLong());
+        log.info("exit function : deleteOperateur");
 
     }
 

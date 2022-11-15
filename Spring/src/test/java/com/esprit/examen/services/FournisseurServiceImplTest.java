@@ -89,6 +89,7 @@ public class FournisseurServiceImplTest {
 	
 	@Test
 	public void testAddFournisseur() {
+		log.info("entred function : getStockById");
 		init();
 		when(fournisseurRepository.save(any(Fournisseur.class))).thenReturn(f1);
 		modelMapper.getConfiguration().setAmbiguityIgnored(true);
@@ -96,20 +97,24 @@ public class FournisseurServiceImplTest {
 		Fournisseur fnew = fournisseurServiceImpl.addFournisseur(frm);
 		assertNotNull(fnew);
 		assertThat(fnew.getCode()).isEqualTo("code1");
+		log.info("exit function : getStockById");
 	}
 	
 	@Test
 	public void save() {
+		log.info("entred function : getStockById");
 		init();
 		when(fournisseurRepository.save(any(Fournisseur.class))).thenReturn(f2);
 		FournisseurRequestModel frm= modelMapper.map(f2, FournisseurRequestModel.class);
 		Fournisseur newFournisseur = fournisseurServiceImpl.addFournisseur(frm);
 		assertNotNull(newFournisseur);
 		assertThat(newFournisseur.getCode()).isEqualTo("code2");
+		log.info("exit function : getStockById");
 	}
 	
 	@Test
 	public void getFournisseurs() {
+		log.info("entred function : getStockById");
 		init();
 		List<Fournisseur> list = new ArrayList<>();
 		list.add(f1);
@@ -118,10 +123,12 @@ public class FournisseurServiceImplTest {
 		List<Fournisseur> Fournisseurs = fournisseurServiceImpl.retrieveAllFournisseurs();
 		assertEquals(2, Fournisseurs.size());
 		assertNotNull(Fournisseurs);
+		log.info("exit function : getStockById");
 	}
 	
 	@Test
 	public void getFournisseurById() {
+		log.info("entred function : getStockById");
 		init();
 		when(fournisseurRepository.save(any(Fournisseur.class))).thenReturn(f1);
 		FournisseurRequestModel frm=modelMapper.map(f1, FournisseurRequestModel.class);
@@ -130,10 +137,12 @@ public class FournisseurServiceImplTest {
 		Fournisseur existingFournisseur = fournisseurServiceImpl.retrieveFournisseur(fnew.getIdFournisseur());
 		assertNotNull(existingFournisseur);
 		assertThat(existingFournisseur.getIdFournisseur()).isNotNull();
+		log.info("exit function : getStockById");
 	}
 	
 	@Test
 	public void updateFournisseur() {
+		log.info("entred function : getStockById");
 		init();
 		
 		when(fournisseurRepository.findById(anyLong())).thenReturn(Optional.of(f1));
@@ -146,21 +155,24 @@ public class FournisseurServiceImplTest {
 		when(fournisseurRepository.save(any(Fournisseur.class))).thenReturn(f1);
 		assertNotNull(exisitingFournisseur);
 		assertEquals("fournisseurF1", exisitingFournisseur.getLibelle());
+		log.info("exit function : getStockById");
 	}
 	
 	@Test
 	public void deleteFournisseur() {
+		log.info("entred function : getStockById");
 		init();
 		Long FournisseurId = 1L;
 		when(fournisseurRepository.findById(anyLong())).thenReturn(Optional.of(f1));
 		doNothing().when(fournisseurRepository).deleteById(anyLong());
 		fournisseurServiceImpl.deleteFournisseur(FournisseurId);
 		verify(fournisseurRepository, times(1)).deleteById(anyLong());
-		
+		log.info("exit function : getStockById");
 	}
 	
 	@Test
     public void assignSecteurActiviteToFournisseurTest(){
+		log.info("entred function : getStockById");
 		init();
         when((fournisseurRepository.findById(anyLong()))).thenReturn(Optional.of(f1));
         when(secteurActiviteRepository.findById(anyLong())).thenReturn(Optional.of(sa));
@@ -168,5 +180,6 @@ public class FournisseurServiceImplTest {
         assertThat(f1.getSecteurActivites().contains(sa)).isTrue();
         verify(fournisseurRepository).save(any(Fournisseur.class));
         log.info("secteur activite assignd :"+f1.toString());
+        log.info("exit function : getStockById");
     }
 }
