@@ -4,17 +4,14 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-
 import static org.mockito.Mockito.when;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
 
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +28,10 @@ import com.esprit.examen.entities.Reglement;
 import com.esprit.examen.entities.dto.ReglementRequestModel;
 import com.esprit.examen.repositories.ReglementRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RunWith(SpringRunner.class)
+@Slf4j
 @ExtendWith(MockitoExtension.class)
 public class ReglementServiceImplTest {
     @Mock
@@ -66,16 +66,19 @@ public class ReglementServiceImplTest {
 
     @Test
     public void addReglementTest() {
+    	log.info("entred function : addReglementTest");
         init();
         when(reglementRepository.save(any(Reglement.class))).thenReturn(r1);
         ReglementRequestModel prm = modelMapper.map(r1, ReglementRequestModel.class);
         Reglement newReglement = reglementServiceImpl.addReglement(prm);
         assertNotNull(newReglement);
         assertThat(newReglement.getMontantRestant()).isEqualTo(10);
+        log.info("exit function : addReglementTest");
     }
 
     @Test
     public void getReglement() {
+    	log.info("entred function : getReglement");
         init();
         List < Reglement > list = new ArrayList < > ();
         list.add(r1);
@@ -84,10 +87,12 @@ public class ReglementServiceImplTest {
         List < Reglement > Reglements = reglementServiceImpl.retrieveAllReglements();
         assertEquals(2, Reglements.size());
         assertNotNull(Reglements);
+        log.info("exit function : getReglement");
     }
 
     @Test
     public void retrieveReglementByFacture() {
+    	log.info("entred function : retrieveReglementByFacture");
         this.f1 = new Facture();
         this.f1.setIdFacture(1L);
 
@@ -103,10 +108,12 @@ public class ReglementServiceImplTest {
         List < Reglement > Reglements = reglementServiceImpl.retrieveReglementByFacture(f1.getIdFacture());
         System.out.println(reglementServiceImpl.retrieveReglementByFacture(f1.getIdFacture()));
         assertEquals(0, Reglements.size());
+        log.info("exit function : retrieveReglementByFacture");
     }
 
     @Test
     public void retrieveReglement() {
+    	log.info("entred function : retrieveReglement");
         init();
         when(reglementRepository.save(any(Reglement.class))).thenReturn(r2);
         ReglementRequestModel prm = modelMapper.map(r2, ReglementRequestModel.class);
@@ -115,11 +122,12 @@ public class ReglementServiceImplTest {
         Reglement existingProduit = reglementServiceImpl.retrieveReglement(pnew.getIdReglement());
         assertNotNull(existingProduit);
         assertThat(existingProduit.getIdReglement()).isNotNull();
-
+        log.info("exit function : retrieveReglement");
     }
 
     @Test
     public void getChiffreAffaireEntreDeuxDate() {
+    	log.info("entred function : getChiffreAffaireEntreDeuxDate");
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
         String strStartDate = "11-11-2022 11:35:42";
         String strEndDate = "24-11-2022 11:35:42";
@@ -132,5 +140,6 @@ public class ReglementServiceImplTest {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        log.info("exit function : getChiffreAffaireEntreDeuxDate");
     }
 }
